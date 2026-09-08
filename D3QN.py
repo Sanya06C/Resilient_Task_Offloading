@@ -1,3 +1,5 @@
+import os
+os.environ.setdefault('TF_USE_LEGACY_KERAS', '1')
 import numpy as np
 import tensorflow as tf
 import matplotlib.pyplot as plt

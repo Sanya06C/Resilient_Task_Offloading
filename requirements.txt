@@ -1,10 +1,11 @@
 # Minimum required Python version
-python_version >= 3.6
+python_version >= 3.9
 
 # Core libraries
 numpy >= 1.17.0
 matplotlib >= 3.0.0
-tensorflow = 2.8.0
+tensorflow == 2.21.0
+tf_keras == 2.21.0
 # torch >= 1.0.0
 
 # Additional libraries

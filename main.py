@@ -7,13 +7,11 @@ import random
 import os
 import shutil
 
-'''
 if not os.path.exists("models"):
     os.mkdir("models")
 else:
     shutil.rmtree("models")
     os.mkdir("models")
-'''
 
 
 

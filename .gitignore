@@ -1,0 +1,9 @@
+.venv/
+__pycache__/
+*.pyc
+models/
+Delay.txt
+Energy.txt
+QoE.txt
+Drop.txt
+Performance_Chart.png
