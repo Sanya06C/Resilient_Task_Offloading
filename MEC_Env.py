@@ -155,12 +155,18 @@ class MEC:
 
         UEs_lstm_state = np.zeros([self.n_ue, self.n_lstm_state])
 
+        if getattr(self, 'accounting', None) is not None:
+            self.accounting.reset(self)
+
         return UEs_OBS, UEs_lstm_state
 
    
     # perform action, observe state and delay (several steps later)
     def step(self, action):
     
+
+        if getattr(self, 'accounting', None) is not None:
+            self.accounting.start_step(self, action)
 
         ue_action_local = np.zeros([self.n_ue], np.int32)
         ue_action_offload = np.zeros([self.n_ue], np.int32)
@@ -278,13 +284,16 @@ class MEC:
                              
                 # PROCESS
                 if self.local_process_task[ue_index]['REMAIN'] > 0:
+                    if getattr(self, 'accounting', None) is not None:
+                        self.accounting.service(self, 'local', self.local_process_task[ue_index], ue_index,
+                                                ue_comp_cap / self.local_process_task[ue_index]['DENS'])
 
                     if self.local_process_task[ue_index]['REMAIN'] >= (ue_comp_cap / self.local_process_task[ue_index]['DENS']):
     
                         self.ue_bit_processed[self.local_process_task[ue_index]['TIME'], ue_index] += ue_comp_cap / self.local_process_task[ue_index]['DENS']
                         self.ue_comp_energy[self.local_process_task[ue_index]['TIME'], ue_index] += (ue_comp_cap / self.local_process_task[ue_index]['DENS']) * (1 ** (-27) * (ue_comp_cap / self.local_process_task[ue_index]['DENS'])) 
                     else:
-                        self.ue_bit_processed[self.local_process_task[ue_index]['TIME'], ue_index] += self.local_process_task[ue_index]['REMAIN']/ self.local_process_task[ue_index]['DENS']
+                        self.ue_bit_processed[self.local_process_task[ue_index]['TIME'], ue_index] += self.local_process_task[ue_index]['REMAIN']
                         self.ue_comp_energy[self.local_process_task[ue_index]['TIME'], ue_index] += self.local_process_task[ue_index]['REMAIN']/ self.local_process_task[ue_index]['DENS'] * (1 ** (-27) * (ue_comp_cap / self.local_process_task[ue_index]['DENS']))
 
 
@@ -358,13 +367,17 @@ class MEC:
                     self.edge_drop[ue_index, edge_index] = 0
 
                     if self.edge_process_task[ue_index][edge_index]['REMAIN'] > 0:
+                        if getattr(self, 'accounting', None) is not None:
+                            self.accounting.service(self, 'edge', self.edge_process_task[ue_index][edge_index], ue_index,
+                                edge_cap / self.edge_process_task[ue_index][edge_index]['DENS'] / self.edge_ue_m[edge_index],
+                                edge=edge_index, share=self.edge_ue_m[edge_index])
     
                         if self.edge_process_task[ue_index][edge_index]['REMAIN'] >= (edge_cap / self.edge_process_task[ue_index][edge_index]['DENS'] / self.edge_ue_m[edge_index]):
                             self.edge_comp_energy[self.edge_process_task[ue_index][edge_index]['TIME'], ue_index, edge_index] += (edge_cap/ self.edge_process_task[ue_index][edge_index]['DENS']) * (self.edge_p_comp * self.duration)
                             self.edge_bit_processed[self.edge_process_task[ue_index][edge_index]['TIME'], ue_index, edge_index] += (edge_cap/ self.edge_process_task[ue_index][edge_index]['DENS'] / self.edge_ue_m[edge_index])                      
                             self.ue_idle_energy[self.edge_process_task[ue_index][edge_index]['TIME'], ue_index, edge_index] += (edge_cap / self.edge_process_task[ue_index][edge_index]['DENS'] / self.edge_ue_m[edge_index]) 
                         else:
-                            self.edge_bit_processed[self.edge_process_task[ue_index][edge_index]['TIME'], ue_index, edge_index] += self.edge_process_task[ue_index][edge_index]['REMAIN'] / self.edge_ue_m[edge_index]
+                            self.edge_bit_processed[self.edge_process_task[ue_index][edge_index]['TIME'], ue_index, edge_index] += self.edge_process_task[ue_index][edge_index]['REMAIN']
                             self.edge_comp_energy[self.edge_process_task[ue_index][edge_index]['TIME'], ue_index, edge_index] += (self.edge_process_task[ue_index][edge_index]['REMAIN']) * (self.edge_p_comp * self.duration)
                             self.ue_idle_energy[self.edge_process_task[ue_index][edge_index]['TIME'], ue_index, edge_index] += (self.edge_process_task[ue_index][edge_index]['REMAIN'] / self.edge_ue_m[edge_index]) * self.ue_p_idle  
 
@@ -460,10 +473,13 @@ class MEC:
 
                 # PROCESS
                 if self.local_transmit_task[ue_index]['REMAIN'] > 0:
+                    if getattr(self, 'accounting', None) is not None:
+                        self.accounting.service(self, 'tx', self.local_transmit_task[ue_index], ue_index,
+                            ue_tran_cap[self.local_transmit_task[ue_index]['EDGE']])
 
                     if self.local_transmit_task[ue_index]['REMAIN'] >= ue_tran_cap[self.local_transmit_task[ue_index]['EDGE']]:
                         self.ue_tran_energy[self.local_transmit_task[ue_index]['TIME'], ue_index] += ue_tran_cap[self.local_transmit_task[ue_index]['EDGE']] * self.ue_p_tran
-                        self.ue_bit_transmitted[self.local_transmit_task[ue_index]['TIME'], ue_index] += self.local_transmit_task[ue_index]['REMAIN'] 
+                        self.ue_bit_transmitted[self.local_transmit_task[ue_index]['TIME'], ue_index] += ue_tran_cap[self.local_transmit_task[ue_index]['EDGE']] 
                     
                     else:
                         self.ue_tran_energy[self.local_transmit_task[ue_index]['TIME'], ue_index] += ue_tran_cap[self.local_transmit_task[ue_index]['EDGE']] * self.ue_p_tran
@@ -555,6 +571,9 @@ class MEC:
                         self.ue_energy_state[ue_index]])
 
                 UEs_lstm_state_[ue_index, :] = np.hstack(self.edge_ue_m_observe)
+
+        if getattr(self, 'accounting', None) is not None:
+            self.accounting.finish_step(self)
 
         return UEs_OBS_, UEs_lstm_state_, done
 

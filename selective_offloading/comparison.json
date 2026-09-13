@@ -1,0 +1,257 @@
+{
+  "status": "complete",
+  "comparison": [
+    {
+      "stress_level": "Normal",
+      "effective_transmission_capacity": 14.0,
+      "arrived_tasks": 601153,
+      "original_ue_energy_j_per_episode": 434.37626476852404,
+      "selective_ue_energy_j_per_episode": 397.6179135329708,
+      "ue_energy_change_j_per_episode": -36.75835123555322,
+      "ue_energy_change_fraction": -0.08462329601536,
+      "original_total_system_energy_j_per_episode": 488.91010531129433,
+      "selective_total_system_energy_j_per_episode": 455.8049156473936,
+      "total_system_energy_change_j_per_episode": -33.10518966390072,
+      "original_tx_energy_j_per_episode": 263.7945107378053,
+      "selective_tx_energy_j_per_episode": 246.72885961805477,
+      "original_deadline_violations": 44911,
+      "selective_deadline_violations": 41102,
+      "original_deadline_violation_fraction": 0.07470810259617768,
+      "selective_deadline_violation_fraction": 0.06837194524522043,
+      "deadline_violations_change": -3809,
+      "original_time_to_terminal_seconds": 0.5932930551789645,
+      "selective_time_to_terminal_seconds": 0.6040620274705442,
+      "original_offloading_ratio": 0.6395509961690286,
+      "selective_offloading_ratio": 0.6354172731401158,
+      "overrides": 367778,
+      "override_fraction": 0.6117876813390268,
+      "overrides_lower_energy": 335870,
+      "overrides_original_infeasible": 31908,
+      "override_local_to_edge": 117697,
+      "override_edge_to_local": 133666,
+      "override_edge_switch": 116415,
+      "original_matched_ue_energy_saving_fraction": 0.2825022914554556,
+      "selective_matched_local_ue_energy_j": 398210.8898021644,
+      "selective_matched_offload_ue_energy_j": 248239.74229112698,
+      "selective_matched_ue_energy_savings_j": 149971.14751103742,
+      "selective_matched_ue_energy_saving_fraction": 0.37661237136318587
+    },
+    {
+      "stress_level": "Low",
+      "effective_transmission_capacity": 14.0,
+      "arrived_tasks": 601153,
+      "original_ue_energy_j_per_episode": 434.37626476852404,
+      "selective_ue_energy_j_per_episode": 397.6179135329708,
+      "ue_energy_change_j_per_episode": -36.75835123555322,
+      "ue_energy_change_fraction": -0.08462329601536,
+      "original_total_system_energy_j_per_episode": 488.91010531129433,
+      "selective_total_system_energy_j_per_episode": 455.8049156473936,
+      "total_system_energy_change_j_per_episode": -33.10518966390072,
+      "original_tx_energy_j_per_episode": 263.7945107378053,
+      "selective_tx_energy_j_per_episode": 246.72885961805477,
+      "original_deadline_violations": 44911,
+      "selective_deadline_violations": 41102,
+      "original_deadline_violation_fraction": 0.07470810259617768,
+      "selective_deadline_violation_fraction": 0.06837194524522043,
+      "deadline_violations_change": -3809,
+      "original_time_to_terminal_seconds": 0.5932930551789645,
+      "selective_time_to_terminal_seconds": 0.6040620274705442,
+      "original_offloading_ratio": 0.6395509961690286,
+      "selective_offloading_ratio": 0.6354172731401158,
+      "overrides": 367778,
+      "override_fraction": 0.6117876813390268,
+      "overrides_lower_energy": 335870,
+      "overrides_original_infeasible": 31908,
+      "override_local_to_edge": 117697,
+      "override_edge_to_local": 133666,
+      "override_edge_switch": 116415,
+      "original_matched_ue_energy_saving_fraction": 0.2825022914554556,
+      "selective_matched_local_ue_energy_j": 398210.8898021644,
+      "selective_matched_offload_ue_energy_j": 248239.74229112698,
+      "selective_matched_ue_energy_savings_j": 149971.14751103742,
+      "selective_matched_ue_energy_saving_fraction": 0.37661237136318587
+    },
+    {
+      "stress_level": "Medium",
+      "effective_transmission_capacity": 8.48769868957287,
+      "arrived_tasks": 601153,
+      "original_ue_energy_j_per_episode": 562.1667285389167,
+      "selective_ue_energy_j_per_episode": 522.685046893969,
+      "ue_energy_change_j_per_episode": -39.481681644947685,
+      "ue_energy_change_fraction": -0.07023126706121763,
+      "original_total_system_energy_j_per_episode": 593.8707285383254,
+      "selective_total_system_energy_j_per_episode": 554.4440695585271,
+      "total_system_energy_change_j_per_episode": -39.426658979798276,
+      "original_tx_energy_j_per_episode": 351.3879064376352,
+      "selective_tx_energy_j_per_episode": 246.87178737104753,
+      "original_deadline_violations": 142833,
+      "selective_deadline_violations": 77999,
+      "original_deadline_violation_fraction": 0.23759841504575374,
+      "selective_deadline_violation_fraction": 0.1297489990069084,
+      "deadline_violations_change": -64834,
+      "original_time_to_terminal_seconds": 0.7246576162807139,
+      "selective_time_to_terminal_seconds": 0.6974933170091474,
+      "original_offloading_ratio": 0.564528497736849,
+      "selective_offloading_ratio": 0.3810893399849955,
+      "overrides": 312858,
+      "override_fraction": 0.5204299071950069,
+      "overrides_lower_energy": 272550,
+      "overrides_original_infeasible": 40308,
+      "override_local_to_edge": 40314,
+      "override_edge_to_local": 216960,
+      "override_edge_switch": 55584,
+      "original_matched_ue_energy_saving_fraction": -0.0853554162074985,
+      "selective_matched_local_ue_energy_j": 259888.84194392775,
+      "selective_matched_offload_ue_energy_j": 247129.8065451295,
+      "selective_matched_ue_energy_savings_j": 12759.035398798238,
+      "selective_matched_ue_energy_saving_fraction": 0.04909420236499057
+    },
+    {
+      "stress_level": "High",
+      "effective_transmission_capacity": 6.326878361484239,
+      "arrived_tasks": 601153,
+      "original_ue_energy_j_per_episode": 614.0728253640201,
+      "selective_ue_energy_j_per_episode": 567.0893617914295,
+      "ue_energy_change_j_per_episode": -46.98346357259061,
+      "ue_energy_change_fraction": -0.07651122412840694,
+      "original_total_system_energy_j_per_episode": 629.3263760033897,
+      "selective_total_system_energy_j_per_episode": 577.1127013018835,
+      "total_system_energy_change_j_per_episode": -52.21367470150619,
+      "original_tx_energy_j_per_episode": 387.2401478464539,
+      "selective_tx_energy_j_per_episode": 241.91011258031253,
+      "original_deadline_violations": 221820,
+      "selective_deadline_violations": 150257,
+      "original_deadline_violation_fraction": 0.3689909224440367,
+      "selective_deadline_violation_fraction": 0.24994801656150764,
+      "deadline_violations_change": -71563,
+      "original_time_to_terminal_seconds": 0.7694927913526174,
+      "selective_time_to_terminal_seconds": 0.7775125467227145,
+      "original_offloading_ratio": 0.5364008829698929,
+      "selective_offloading_ratio": 0.2707929595294376,
+      "overrides": 287855,
+      "override_fraction": 0.4788381659910206,
+      "overrides_lower_energy": 216485,
+      "overrides_original_infeasible": 71370,
+      "override_local_to_edge": 9460,
+      "override_edge_to_local": 265141,
+      "override_edge_switch": 13254,
+      "original_matched_ue_energy_saving_fraction": -0.2654453913527208,
+      "selective_matched_local_ue_energy_j": 198720.57358605321,
+      "selective_matched_offload_ue_energy_j": 241942.4004320815,
+      "selective_matched_ue_energy_savings_j": -43221.82684602827,
+      "selective_matched_ue_energy_saving_fraction": -0.2175005137417825
+    }
+  ],
+  "forecast_diagnostics": [
+    {
+      "stress_level": "Normal",
+      "decisions": 601153,
+      "selected_action_feasibility_accuracy": 0.9499029365236471,
+      "predicted_feasible_fraction": 0.9789704118585452,
+      "actual_success_fraction": 0.9316280547547796,
+      "false_feasible_fraction": 0.04871971029005927,
+      "false_infeasible_fraction": 0.0013773531862936723
+    },
+    {
+      "stress_level": "Low",
+      "decisions": 601153,
+      "selected_action_feasibility_accuracy": 0.9499029365236471,
+      "predicted_feasible_fraction": 0.9789704118585452,
+      "actual_success_fraction": 0.9316280547547796,
+      "false_feasible_fraction": 0.04871971029005927,
+      "false_infeasible_fraction": 0.0013773531862936723
+    },
+    {
+      "stress_level": "Medium",
+      "decisions": 601153,
+      "selected_action_feasibility_accuracy": 0.9815304922374171,
+      "predicted_feasible_fraction": 0.885483396073878,
+      "actual_success_fraction": 0.8702510009930916,
+      "false_feasible_fraction": 0.016850951421684662,
+      "false_infeasible_fraction": 0.0016185563408982406
+    },
+    {
+      "stress_level": "High",
+      "decisions": 601153,
+      "selected_action_feasibility_accuracy": 0.995867940441119,
+      "predicted_feasible_fraction": 0.7531892879183835,
+      "actual_success_fraction": 0.7500519834384923,
+      "false_feasible_fraction": 0.0036346820193860797,
+      "false_infeasible_fraction": 0.0004973775394949372
+    }
+  ],
+  "paired_block_intervals": {
+    "Normal": {
+      "ue_energy_change_j_per_episode_95": [
+        -37.070214935236834,
+        -36.454603393662474
+      ],
+      "system_energy_change_j_per_episode_95": [
+        -33.42558977510578,
+        -32.78824512996276
+      ],
+      "deadline_violations_change_per_episode_95": [
+        -4.431,
+        -3.1609500000000006
+      ]
+    },
+    "Low": {
+      "ue_energy_change_j_per_episode_95": [
+        -37.070214935236834,
+        -36.454603393662474
+      ],
+      "system_energy_change_j_per_episode_95": [
+        -33.42558977510578,
+        -32.78824512996276
+      ],
+      "deadline_violations_change_per_episode_95": [
+        -4.431,
+        -3.1609500000000006
+      ]
+    },
+    "Medium": {
+      "ue_energy_change_j_per_episode_95": [
+        -39.81332110101551,
+        -39.17073856617927
+      ],
+      "system_energy_change_j_per_episode_95": [
+        -39.770078277275665,
+        -39.10435391965016
+      ],
+      "deadline_violations_change_per_episode_95": [
+        -65.52605,
+        -64.16897500000002
+      ]
+    },
+    "High": {
+      "ue_energy_change_j_per_episode_95": [
+        -47.45864461322961,
+        -46.52422688392572
+      ],
+      "system_energy_change_j_per_episode_95": [
+        -52.70463975854978,
+        -51.71500585670283
+      ],
+      "deadline_violations_change_per_episode_95": [
+        -72.25002500000001,
+        -70.862925
+      ]
+    }
+  },
+  "validation": {
+    "episodes_per_condition": 1000,
+    "identical_workload_arrays_across_selective_conditions": true,
+    "frozen_workload_files_unchanged": true,
+    "policy_weights_unchanged": true,
+    "learn_calls": 0,
+    "stress_mapping_unchanged": true,
+    "power_time_accounting_unchanged": true
+  },
+  "matched_savings_definition": "Power-time local-computation energy for the exact tasks selected for offloading minus their aggregate observed UE transmission plus idle energy.",
+  "interval_definition": "Paired 95% descriptive intervals from 5,000 resamples of 50 nonoverlapping 20-episode blocks.",
+  "transmission_only_break_even_capacity": {
+    "0.197": 15.177664974619287,
+    "0.297": 10.067340067340067,
+    "0.397": 7.531486146095717
+  }
+}

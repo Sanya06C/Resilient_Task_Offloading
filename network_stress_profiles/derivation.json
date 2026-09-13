@@ -1,0 +1,52 @@
+{
+  "input_hashes": {
+    "train_dataset.parquet": "1e11477c951dddb399ed8d1d35e9c16805390b3212895bede1bc8982183b5c5b",
+    "validation_dataset.parquet": "1f5658adecc0b40201a7b0542a1d2e8110b2e1266656ecdd625e8aee740cb8fe"
+  },
+  "heldout_used": false,
+  "rows_total": 195806,
+  "label_counts": {
+    "BENIGN": 191008,
+    "ABNORMAL": 4798
+  },
+  "source_label_counts": {
+    "a_day1:ABNORMAL": 3264,
+    "a_day1:BENIGN": 4158,
+    "s_day1:ABNORMAL": 1534,
+    "s_day1:BENIGN": 9028,
+    "tf_a:BENIGN": 120938,
+    "tf_s:BENIGN": 56884
+  },
+  "comparable_sources": [
+    "a_day1",
+    "s_day1"
+  ],
+  "reason_for_comparable_sources": "Only a_day1 and s_day1 contain both BENIGN and ABNORMAL windows. Source-matched BENIGN references avoid treating capture identity as severity.",
+  "duration_floor_seconds": 0.001,
+  "score_weights": {
+    "estimated_packet_rate_per_sec": 0.4,
+    "new_flows": 0.15,
+    "unique_sources": 0.1,
+    "unique_destinations": 0.1,
+    "short_flow_churn": 0.15,
+    "persistent_flow_occupancy": 0.1
+  },
+  "offered_load_features": {
+    "estimated_packet_rate_per_sec": 0.7,
+    "new_flows": 0.15,
+    "unique_sources": 0.075,
+    "unique_destinations": 0.075
+  },
+  "source_abnormal_tercile_thresholds": {
+    "a_day1": {
+      "q33": 0.548015873015873,
+      "q67": 0.7351891935225269
+    },
+    "s_day1": {
+      "q33": 0.6235268054940186,
+      "q67": 0.8015950376606114
+    }
+  },
+  "capacity_mapping": "C_eff = 14 / sqrt(M), bounded below at 0.25*14; M is the monotone source-balanced geometric load multiplier. Square-root compression is a conservative sensitivity assumption because packet sizes and physical link utilization are unavailable.",
+  "packet_loss": "not modeled or invented"
+}

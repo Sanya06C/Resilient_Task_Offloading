@@ -1,0 +1,163 @@
+{
+  "episodes": 2,
+  "energy_model": "power_time_v1",
+  "energy_units": "joules_assuming_config_power_watts_duration_seconds",
+  "arrived_tasks": {
+    "mean_per_episode": 597.5,
+    "sd_across_episodes": 7.7781745930520225,
+    "sum": 1195.0
+  },
+  "completed_tasks": {
+    "mean_per_episode": 464.5,
+    "sd_across_episodes": 17.67766952966369,
+    "sum": 929.0
+  },
+  "deadline_violations": {
+    "mean_per_episode": 133.0,
+    "sd_across_episodes": 25.45584412271571,
+    "sum": 266.0
+  },
+  "deadline_violation_fraction": {
+    "mean_per_episode": 0.22233567522746628,
+    "sd_across_episodes": 0.03970958731804583,
+    "sum": 0.44467135045493256
+  },
+  "local_tasks": {
+    "mean_per_episode": 256.5,
+    "sd_across_episodes": 12.020815280171307,
+    "sum": 513.0
+  },
+  "offloaded_tasks": {
+    "mean_per_episode": 341.0,
+    "sd_across_episodes": 4.242640687119285,
+    "sum": 682.0
+  },
+  "local_fraction": {
+    "mean_per_episode": 0.429194119492627,
+    "sd_across_episodes": 0.014531328007441714,
+    "sum": 0.858388238985254
+  },
+  "offloaded_fraction": {
+    "mean_per_episode": 0.570805880507373,
+    "sd_across_episodes": 0.014531328007441675,
+    "sum": 1.141611761014746
+  },
+  "local_started_tasks": {
+    "mean_per_episode": 256.5,
+    "sd_across_episodes": 12.020815280171307,
+    "sum": 513.0
+  },
+  "transmission_started_tasks": {
+    "mean_per_episode": 341.0,
+    "sd_across_episodes": 4.242640687119285,
+    "sum": 682.0
+  },
+  "edge_started_tasks": {
+    "mean_per_episode": 254.0,
+    "sd_across_episodes": 16.97056274847714,
+    "sum": 508.0
+  },
+  "local_completed_tasks": {
+    "mean_per_episode": 218.0,
+    "sd_across_episodes": 4.242640687119285,
+    "sum": 436.0
+  },
+  "offloaded_completed_tasks": {
+    "mean_per_episode": 246.5,
+    "sd_across_episodes": 13.435028842544403,
+    "sum": 493.0
+  },
+  "average_latency_slots": {
+    "mean_per_episode": 6.547506075954064,
+    "sd_across_episodes": 0.09238460751768929,
+    "sum": 13.095012151908128
+  },
+  "average_latency_seconds": {
+    "mean_per_episode": 0.6547506075954064,
+    "sd_across_episodes": 0.009238460751768913,
+    "sum": 1.3095012151908128
+  },
+  "average_time_to_terminal_slots": {
+    "mean_per_episode": 7.313284366456008,
+    "sd_across_episodes": 0.20894132236654406,
+    "sum": 14.626568732912016
+  },
+  "average_time_to_terminal_seconds": {
+    "mean_per_episode": 0.7313284366456009,
+    "sd_across_episodes": 0.02089413223665434,
+    "sum": 1.4626568732912018
+  },
+  "legacy_drop_counter": {
+    "mean_per_episode": 106.0,
+    "sd_across_episodes": 19.79898987322333,
+    "sum": 212.0
+  },
+  "policy_timing_mismatch_arrivals": {
+    "mean_per_episode": 597.5,
+    "sd_across_episodes": 7.7781745930520225,
+    "sum": 1195.0
+  },
+  "local_ue_computation_energy": {
+    "mean_per_episode": 213.12828784677845,
+    "sd_across_episodes": 13.42807216191383,
+    "sum": 426.2565756935569
+  },
+  "ue_transmission_energy": {
+    "mean_per_episode": 356.5911229046848,
+    "sd_across_episodes": 1.4093956453071605,
+    "sum": 713.1822458093696
+  },
+  "ue_idle_energy": {
+    "mean_per_episode": 0.37615983158176525,
+    "sd_across_episodes": 0.002481670245496943,
+    "sum": 0.7523196631635305
+  },
+  "edge_computation_energy": {
+    "mean_per_episode": 33.54342109796678,
+    "sd_across_episodes": 2.2289132307368456,
+    "sum": 67.08684219593356
+  },
+  "ue_only_total_energy": {
+    "mean_per_episode": 570.0955705830451,
+    "sd_across_episodes": 12.016194846361167,
+    "sum": 1140.1911411660901
+  },
+  "total_system_energy": {
+    "mean_per_episode": 603.6389916810119,
+    "sd_across_episodes": 9.787281615624291,
+    "sum": 1207.2779833620239
+  },
+  "legacy_local_ue_computation_energy": {
+    "mean_per_episode": 1289.8142341505381,
+    "sd_across_episodes": 14.715390780739954,
+    "sum": 2579.6284683010763
+  },
+  "legacy_ue_transmission_energy": {
+    "mean_per_episode": 3302.0968574549993,
+    "sd_across_episodes": 17.945111463515417,
+    "sum": 6604.193714909999
+  },
+  "legacy_ue_idle_energy": {
+    "mean_per_episode": 218.10906100557156,
+    "sd_across_episodes": 27.27782682968045,
+    "sum": 436.2181220111431
+  },
+  "legacy_edge_computation_energy": {
+    "mean_per_episode": 675.2873402872746,
+    "sd_across_episodes": 51.043833648105824,
+    "sum": 1350.5746805745491
+  },
+  "legacy_ue_only_total_energy": {
+    "mean_per_episode": 4810.020152611109,
+    "sd_across_episodes": 30.507547512456355,
+    "sum": 9620.040305222217
+  },
+  "legacy_total_system_energy": {
+    "mean_per_episode": 5485.307492898383,
+    "sd_across_episodes": 81.5513811605617,
+    "sum": 10970.614985796767
+  },
+  "pooled_deadline_violation_fraction": 0.22259414225941423,
+  "pooled_offloaded_fraction": 0.5707112970711297,
+  "pooled_completed_latency_seconds": 0.6545748116254038
+}

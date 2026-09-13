@@ -1,0 +1,30 @@
+{
+  "d3qn_methods_changed": [
+    "do_store_energy"
+  ],
+  "all_decision_and_learning_methods_unchanged": true,
+  "main_py_byte_identical": true,
+  "config_py_byte_identical": true,
+  "unit_tests": {
+    "command": ".venv/Scripts/python.exe -B -m unittest test_accounting -v",
+    "passed": 6,
+    "failed": 0,
+    "covers": [
+      "original-vs-instrumented observation/outcome/reward-input equality",
+      "data conservation",
+      "deadline equality and queued failures",
+      "empty episode",
+      "all-edge energy aggregation",
+      "proposed-model bounds and reset"
+    ]
+  },
+  "source_sha256": {
+    "MEC_Env.py": "99c108b0581ea532b701ff17efb50f91516a6d58b7a96670f560cec87234c5a9",
+    "D3QN.py": "6405376177b936528e014874a9d30e0d41bed1cf886e2d7fe65c91342a78bd05",
+    "main.py": "b91b45340e99bac45ebeda03bdf2bca7d43ae467868631e61c130fccb0f28ec9",
+    "Config.py": "8ec226b18ff3b3d64a57a58e0486e13559042b6c27e43c0ee413479c27491f76",
+    "accounting.py": "650bd7b5ec711793117da2eb42cf1a7f74a137914930a96c59af662b9fda1372",
+    "evaluate_baseline.py": "f52e16651e08f88e467b1ea41f387bd2679ae58567acb8df821d7d8540dd1364",
+    "test_accounting.py": "d3448aacdfd1dbc127a41d056b7a952b097795810e44cbebd276b61bc809b1b8"
+  }
+}

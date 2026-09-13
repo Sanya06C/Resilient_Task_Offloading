@@ -293,16 +293,9 @@ class DuelingDoubleDeepQNetwork:
 
     def do_store_energy(self, episode, time, energy, energy2, energy3, energy4):
     
-        fog_energy = 0
-        for i in range(len(energy3)):
-            if energy3[i] != 0:
-                fog_energy = energy3[i]
-
-
-        idle_energy = 0
-        for i in range(len(energy4)):
-            if energy4[i] != 0:
-                idle_energy = energy4[i]
+        # Logging only: retain every edge and idle component.
+        fog_energy = float(np.sum(energy3))
+        idle_energy = float(np.sum(energy4))
 
         while episode >= len(self.energy_store):
             self.energy_store.append(np.zeros([self.n_time]))
