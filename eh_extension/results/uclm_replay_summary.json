@@ -1,0 +1,24 @@
+{
+  "method": "UCLM observed battery-terminal-current replay only",
+  "policy_coupled": false,
+  "trace_path": "C:\\tmp\\energy-harvesting-dataset-audit\\dataset.csv",
+  "samples": 93438,
+  "initial_soc_assumption": 0.5,
+  "final_soc": 0.31600665277799767,
+  "total_observed_charge_mah": 11630.976222222222,
+  "total_observed_discharge_mah": 12774.508527777778,
+  "battery_empty_steps": 12025,
+  "battery_full_clipping_mah": 0.0,
+  "quality_flags": {
+    "non_60_second_intervals": 8224,
+    "intervals_over_120_seconds": 1,
+    "negative_pv_sc_current": 39070,
+    "negative_wind_speed": 1656,
+    "humidity_over_100_percent": 1
+  },
+  "limitations": [
+    "PV sc Current was not converted to harvested power.",
+    "This replay must not be combined with QECO action energy.",
+    "One-minute samples are not treated as measured 0.1-second dynamics."
+  ]
+}
