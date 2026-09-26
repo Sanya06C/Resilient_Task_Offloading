@@ -1,26 +1,418 @@
-# QECO
+# Resilient Task Offloading under Network Stress and Energy Variability in IIoT
 
-## A QoE-Oriented Computation Offloading Algorithm based on Deep Reinforcement Learning for Mobile Edge Computing
-[![GitHub release (latest)](https://img.shields.io/github/v/release/ImanRht/QOCO)](https://github.com/ImanRht/QOCO/releases)
-[![DOI](https://zenodo.org/badge/672957541.svg)](https://zenodo.org/doi/10.5281/zenodo.10134418)
-![GitHub repo size](https://img.shields.io/github/repo-size/ImanRht/QOCO)
-[![GitHub stars](https://img.shields.io/github/stars/ImanRht/QOCO?style=social)](https://github.com/ImanRht/QOCO/stargazers) 
-[![GitHub forks](https://img.shields.io/github/forks/ImanRht/QOCO?style=social)](https://github.com/ImanRht/QOCO/network/members) 
-[![GitHub issues](https://img.shields.io/github/issues/ImanRht/QOCO?style=social)](https://github.com/ImanRht/QOCO/issues) 
-[![GitHub license](https://img.shields.io/github/license/ImanRht/QOCO?style=social)](https://github.com/ImanRht/QOCO/blob/master/LICENSE) 
+This repository contains the implementation, experiments, and reproducibility artifacts for our research on **resilient task offloading in Industrial Internet of Things (IIoT) environments**.
 
-This repository contains the Python code for reproducing the decentralized QECO (QoE-Oriented Computation Offloading) algorithm, designed for Mobile Edge Computing (MEC) systems.
+The work builds upon the original **QECO** framework by Rahmati et al. and extends it in two directions:
 
-## Abstract—
-In the realm of mobile edge computing (MEC), efficient computation task offloading plays a pivotal role in ensuring a seamless quality of experience (QoE) for users. Maintaining a high QoE is paramount in today’s interconnected world, where users demand reliable services. This challenge stands as one of the most primary key factors contributing to handling dynamic and uncertain mobile environment. In this study, we delve into computation offloading in MEC systems, where strict task processing deadlines and energy constraints can adversely affect the system performance. We formulate the computation task offloading problem as a Markov decision process (MDP) to maximize the long-term QoE of each user individually. We propose a distributed QoE-oriented computation offloading (QECO) algorithm based on deep reinforcement learning (DRL) that empowers mobile devices to make their offloading decisions without requiring knowledge of decisions made by other devices. Through numerical studies, we evaluate the performance of QECO. Simulation results reveal that compared to the state-of-the-art existing works, QECO increases the number of completed tasks by up to 14.4%, while simultaneously reducing task delay and energy consumption by 9.2% and 6.3%, respectively. Together, these improvements result in a significant average QoE enhancement of 37.1%. This substantial improvement is achieved by accurately accounting for user dynamics and edge server workloads when making intelligent offloading decisions. This highlights QECO’s effectiveness in enhancing users’ experience in MEC systems.
+- **Network-stress-aware task offloading** using real smart-factory traffic.
+- **Energy-harvesting-aware task offloading** using real harvesting traces and battery state information.
 
-## Index Terms—
-Mobile edge computing, computation task offloading, quality of experience, deep reinforcement learning.
+The objective is to study whether energy-efficient task offloading remains beneficial when **network conditions degrade** and **device energy availability changes**.
 
-## Citation
-I. Rahmati, H. Shahmansouri, and A. Movaghar, "[QECO: A QoE-Oriented Computation Offloading Algorithm based on Deep Reinforcement Learning for Mobile Edge Computing](https://scholar.google.com/citations?view_op=view_citation&hl=en&user=yHWKp6MAAAAJ&citation_for_view=yHWKp6MAAAAJ:5nxA0vEk-isC)".
+---
 
+## Research Motivation
+
+Task offloading allows resource-constrained IoT devices to execute computation either:
+
+- locally on the device,
+- on Edge Server 0, or
+- on Edge Server 1.
+
+Although offloading can reduce local computation energy, it also introduces **transmission and waiting energy**.
+
+Our literature study reviewed **51 papers**, including **31 core algorithmic studies**, and found that **77.4% of the core studies relied on simulation-only validation**.
+
+This motivated us to study how an existing learned offloading policy behaves when exposed to conditions derived from **real industrial network traffic** and **real energy-harvesting measurements**.
+
+---
+
+# Base Framework - QECO
+
+This work builds upon:
+
+**QECO: A QoE-Oriented Computation Offloading Algorithm based on Deep Reinforcement Learning for Mobile Edge Computing**
+
+QECO combines:
+
+- **Dueling Double Deep Q-Network (D3QN)** for offloading decisions.
+- **Long Short-Term Memory (LSTM)** for capturing dynamic edge-server workloads.
+- Three possible actions for each task:
+  - Local execution
+  - Edge Server 0
+  - Edge Server 1
+
+### Original QECO Resources
+
+**Repository:**  
+https://github.com/ImanRHT/QECO
+
+**Paper:**  
+I. Rahmati, H. Shah-Mansouri, and A. Movaghar,  
+*"QECO: A QoE-Oriented Computation Offloading Algorithm based on Deep Reinforcement Learning for Mobile Edge Computing,"*  
+IEEE Transactions on Network Science and Engineering, 2025.
+
+**DOI:**  
+https://doi.org/10.1109/TNSE.2025.3556809
+
+---
+
+# Research Extensions
+
+## 1. Real-Data-Driven Network Stress
+
+The original QECO policy was kept **frozen** during this experiment.
+
+The same pretrained checkpoints and workloads were used while only the effective communication condition was changed.
+
+Real smart-factory traffic was processed to derive:
+
+- Normal
+- Low
+- Medium
+- High
+
+network-stress conditions.
+
+Traffic pressure was mapped to QECO's effective transmission capacity while keeping the remaining simulation parameters unchanged.
+
+### Stress Profiles
+
+| Stress Level | Load Multiplier `M` | Effective Capacity |
+|:------------:|--------------------:|-------------------:|
+| **Normal**   | 1.0000 | 14.0000 |
+| **Low**      | 1.0000 | 14.0000 |
+| **Medium**   | 2.7207 | 8.4877 |
+| **High**     | 4.8964 | 6.3269 |
+
+### Original QECO under Network Stress
+
+| Stress Level | UE Energy (J) | Matched Offloading Saving | Deadline Violations |
+|:------------:|--------------:|--------------------------:|--------------------:|
+| **Normal**   | 434.376 | **+28.25%** | 7.47% |
+| **Medium**   | 562.167 | **-8.54%** | 23.76% |
+| **High**     | 614.073 | **-26.54%** | 36.90% |
+
+### Observation
+
+Under Normal conditions, offloading was energy-efficient.
+
+At Medium stress, offloading became **8.54% more expensive** than executing the same tasks locally.
+
+At High stress, the penalty increased to **26.54%**.
+
+This identifies an **energy crossover**, showing that offloading is not always energy-efficient when communication conditions deteriorate.
+
+---
+
+## 2. Stress-Aware Selective Offloading
+
+To improve decisions under degraded network conditions, we introduced a lightweight **stress-aware selector** on top of frozen QECO.
+
+For every arriving task, the selector evaluates:
+
+- Local execution
+- Edge Server 0
+- Edge Server 1
+
+using:
+
+- Task size
+- Computation density
+- Deadline
+- Local queue state
+- Transmission queue state
+- Edge queue state
+- Effective transmission capacity
+- Estimated UE energy
+
+Deadline-infeasible actions are rejected.
+
+QECO's original decision is changed only when another feasible option is predicted to consume less UE energy.
+
+### Original vs Stress-Aware QECO
+
+| Stress | Method | UE Energy (J) | TX Energy (J) | Deadline Violations | Offload Ratio |
+|:------:|:------|--------------:|--------------:|--------------------:|--------------:|
+| **Normal** | Original QECO | 434.376 | 263.795 | 7.47% | 63.96% |
+|  | Stress-Aware QECO | **397.618** | **246.729** | **6.84%** | 63.54% |
+| **Medium** | Original QECO | 562.167 | 351.388 | 23.76% | 56.45% |
+|  | Stress-Aware QECO | **522.685** | **246.872** | **12.97%** | 38.11% |
+| **High** | Original QECO | 614.073 | 387.240 | 36.90% | 53.64% |
+|  | Stress-Aware QECO | **567.089** | **241.910** | **24.99%** | 27.08% |
+
+### Key Improvements
+
+| Metric | Medium Stress | High Stress |
+|:-------|--------------:|------------:|
+| **UE Energy Reduction** | **7.02%** | **7.65%** |
+| **TX Energy Reduction** | **29.74%** | **37.53%** |
+| **Deadline Violation Reduction** | **45.39%** | **32.26%** |
+| **Matched Saving** | -8.54% → **+4.91%** | -26.54% → **-21.75%** |
+
+At Medium stress, the selector successfully restored positive matched energy savings.
+
+At High stress, energy and deadline performance still improved, although matched offloading remained unfavorable under the configured power and transmission-capacity assumptions.
+
+---
+
+## 3. Energy-Harvesting Extension - EH-QECO v2
+
+The second branch extends QECO for **energy-harvesting IoT devices**.
+
+Two new features were added to the original QECO observation:
+
+- **Battery State of Charge (SOC)**
+- **Harvest availability**
+
+The observation space therefore increased from **6 features to 8 features**.
+
+Because the observation space changed, new D3QN models were **trained from scratch**.
+
+### Training Setup
+
+Five independent training seeds were used:
+
+```text
+101
+202
+303
+404
+505
 ```
+
+The model was trained using a chronological training split and evaluated on an unseen final test split.
+
+A total of **54,947 gradient updates** were recorded across the five training runs.
+
+---
+
+# Battery and Energy-Harvesting Model
+
+EH-QECO v2 uses a **capacity-bounded Coulomb-counting battery model** with strict energy causality.
+
+### Battery Parameters
+
+| Parameter | Value |
+|:----------|------:|
+| Battery Capacity | **2000 mAh** |
+| Nominal Voltage | **3.7 V** |
+| Charge Efficiency | **0.95** |
+| Discharge Efficiency | **0.95** |
+| Simulation Step | **0.1 s** |
+
+Energy causality ensures that an action cannot execute if the battery does not contain sufficient stored energy.
+
+Each 60-second harvesting measurement is mapped to **600 consecutive 0.1-second QECO slots** using Zero-Order Hold.
+
+---
+
+# Energy-Harvesting Results
+
+EH-aware policies were compared with matched EH-disabled runs.
+
+| Network Stress | Δ UE Energy | Δ TX Energy | Δ Final SOC |
+|:--------------:|------------:|------------:|------------:|
+| **Normal** | **-0.502 J** | **-0.912 J** | ≈ **+0.055 pp** |
+| **Medium** | **-0.999 J** | **-1.509 J** | ≈ **+0.055 pp** |
+| **High** | **-1.420 J** | **-2.013 J** | ≈ **+0.055 pp** |
+
+Negative energy differences indicate lower energy consumption compared with the matched EH-disabled baseline.
+
+The primary benefit of EH-QECO was improved **energy usage and battery reserve**.
+
+Short-horizon deadline-violation rates remained approximately similar, meaning the EH extension mainly improved energy management rather than service reliability.
+
+---
+
+# Long-Horizon Evaluation
+
+Continuous evaluations were performed over longer physical time horizons.
+
+| Duration | Main Observation |
+|:--------:|:-----------------|
+| **1 Hour** | No energy-induced task failures; minimum SOC remained **29.45%** |
+| **6 Hours** | Battery first depleted after approximately **2.8 hours** |
+| **24 Hours** | Harvesting partially offset consumption, but the continuous workload remained energy-deficit |
+
+Energy harvesting therefore improves short-term battery reserve but does **not** make the tested continuously active workload indefinitely sustainable.
+
+---
+
+# Datasets
+
+## Smart-Factory Network Traffic Dataset
+
+Used to derive the real-data-driven network-stress profiles.
+
+**Reference:**  
+B. Brenner, J. Fabini, M. Offermanns, S. Semper, and T. Zseby,  
+*"Malware Communication in Smart Factories: A Network Traffic Data Set,"*  
+Computer Networks, 2024.
+
+**DOI:**  
+https://doi.org/10.1016/j.comnet.2024.110804
+
+---
+
+## UCLM Energy-Harvesting Dataset
+
+Used for the battery, SOC, harvesting, and long-horizon experiments.
+
+**Reference:**  
+M. Kuzman, X. del Toro Garcia, S. Escolar, A. Caruso, S. Chessa, and J. C. Lopez,  
+*"A Testbed and an Experimental Public Dataset for Energy-Harvested IoT Solutions,"*  
+IEEE International Conference on Industrial Informatics (INDIN), 2019.
+
+**DOI:**  
+https://doi.org/10.1109/INDIN41052.2019.8972219
+
+---
+
+# Experimental Workflow
+
+```text
+                    Literature Synthesis
+                            |
+                            v
+                     Validation Gap
+                            |
+              +-------------+-------------+
+              |                           |
+              v                           v
+      Network-Stress Branch       Energy-Harvesting Branch
+              |                           |
+              v                           v
+      Smart-Factory Traffic          UCLM EH Dataset
+              |                           |
+              v                           v
+       Frozen QECO Test          Battery + SOC Model
+              |                           |
+              v                           v
+        Energy Crossover         D3QN Retraining
+              |                           |
+              v                           v
+     Stress-Aware Selector      EH + Stress Evaluation
+              |                           |
+              v                           v
+      Operating-Region          Sensitivity + Long-
+          Analysis               Horizon Analysis
+              |                           |
+              +-------------+-------------+
+                            |
+                            v
+              Resilient IIoT Offloading
+                       Findings
+```
+
+---
+
+# Repository Structure
+
+```text
+QECO/
+│
+├── main.py
+├── MEC_Env.py
+├── DDQN.py
+├── Config.py
+│
+├── eh_extension_v2/
+│   ├── battery dynamics
+│   ├── energy-harvesting environment
+│   ├── training utilities
+│   └── evaluation outputs
+│
+├── notebooks/
+│   ├── network stress analysis
+│   ├── energy accounting
+│   ├── EH time mapping
+│   ├── battery dynamics
+│   ├── core evaluation
+│   └── sensitivity analysis
+│
+├── results/
+│   ├── stress evaluation
+│   ├── EH evaluation
+│   └── sensitivity results
+│
+└── README.md
+```
+
+> The exact folder names may vary depending on the current repository version.
+
+---
+
+# Reproducibility
+
+The experimental setup includes:
+
+- Frozen QECO checkpoints for the network-stress branch
+- Fixed workload replay
+- Checkpoint and workload hashing
+- Zero-learning verification during frozen-policy evaluation
+- Five independent EH-QECO training seeds
+- Chronological train/test split
+- Paired EH-enabled and EH-disabled evaluations
+- Sensitivity analysis
+- 1-hour, 6-hour, and 24-hour continuous evaluations
+
+---
+
+# Main Findings
+
+The experiments show that **task offloading is conditional rather than universally energy-efficient**.
+
+Under good communication conditions, offloading reduces UE energy.
+
+As communication service degrades, transmission and waiting energy increase and can make local execution more energy-efficient.
+
+The stress-aware selector improves both energy consumption and deadline reliability under Medium and High network stress.
+
+Energy harvesting further improves energy use and battery reserve, but it does not make the tested continuous high-duty workload indefinitely sustainable.
+
+---
+
+# Research Paper
+
+**Resilient Task Offloading under Network Stress and Energy Variability in IIoT**
+
+**Status:** Research manuscript / unpublished work
+
+**Research Repository:**  
+(https://github.com/Sanya06C/Task-Offloading)
+
+---
+
+# Attribution
+
+This research builds upon the public **QECO** implementation developed by Rahmati et al.
+
+Original QECO repository:
+
+https://github.com/ImanRHT/QECO
+
+The original QECO implementation and associated components remain attributed to their respective authors.
+
+The following components were developed as part of the present research:
+
+- Real-data-driven network-stress derivation
+- Policy-preserving QECO stress evaluation
+- Matched-task energy accounting
+- Stress-aware selective offloading
+- EH-QECO v2
+- Battery and SOC modeling
+- Energy-harvesting-aware D3QN retraining
+- Sensitivity analysis
+- Long-horizon evaluation
+
+---
+
+# Citation
+
+If you use the original QECO implementation, please cite:
+
+```bibtex
 @article{rahmati2025qeco,
   title={QECO: A QoE-Oriented Computation Offloading Algorithm based on Deep Reinforcement Learning for Mobile Edge Computing},
   author={Rahmati, Iman and Shah-Mansouri, Hamed and Movaghar, Ali},
@@ -30,121 +422,14 @@ I. Rahmati, H. Shahmansouri, and A. Movaghar, "[QECO: A QoE-Oriented Computation
 }
 ```
 
-## Overview
+Citation information for the present research manuscript will be added after publication.
 
+---
 
+## License
 
-QECO is designed to balance and prioritize QoE factors based on individual mobile device requirements while considering the dynamic workloads at the edge nodes. The QECO algorithm captures the dynamics of the MEC environment by integrating the **Dueling Double Deep Q-Network (D3QN)** model with Long **Short-Term Memory (LSTM)** networks. This algorithm address the QoE maximization problem by efficiently utilizing resources from both MDs and ENs.
+This repository contains modifications and research extensions built upon the QECO project.
 
-  
-- **D3QN**: By integrating both double Q-learning and dueling network architectures, D3QN overcomes overestimation bias in action-value predictions and accurately identifies the relative importance of states and actions. This improves the model’s ability to make accurate predictions, providing a foundation for enhanced offloading strategies.
+Please refer to the original QECO repository for the license governing the original implementation:
 
-- **LSTM**: Incorporating LSTM networks allows the model to continuously estimate dynamic work- loads at edge servers. This is crucial for dealing with limited global information and adapting to the uncertain MEC environment with multiple MDs and ENs. By predicting the future workload of edge servers, MDs can effectively adjust their offloading strategies to achieve higher QoE.
-
-<div align="center">
-  <img src="/assets/D3QN.png" alt="D3QN architecture" title="D3QN architecture" style="width:100%;"/>
-</div>
-
-
-## Contents
-- [main.py](main.py): The main code, including training and testing structures, implemented using [Tensorflow 1.x](https://www.tensorflow.org/install/pip).
-- [MEC_Env.py](MEC_Env.py): Contains the code for the mobile edge computing environment.
-- [D3QN.py](DDQN.py): The code for QECO netwok model, implemented using [Tensorflow 1.x](https://www.tensorflow.org/install/pip).
-- [Config.py](Config.py): Configuration file for MEC entities and neural network setup.
-
-
-
-
-## Quick Start
-
-1. **Clone the repository**:
-
-``` bash
-   git clone https://github.com/ImanRHT/QECO.git
-   cd QECO
-```
-
-2. **Configure the MEC environment** in [Config.py](Config.py).
-
-3. Make sure you have the required packages listed in the [requirements.txt](requirements.txt) file installed to ensure the project functions correctly.
-4. **Run the training script***:
-
-``` bash
-   python main.py
-```
-
-
-
-## Convergence
-
-![Performance_Chart](/assets/Performance_Chart__.png "Performance_Charts")
-
-
-
-
-## Future Directions
-
-
-- Addressing **single-agent non-stationarity issues** by leveraging **multi-agent DRL**.
-- **Accelerating the learning of optimal offloading policies** by taking advantage of **Federated Learning** techniques in the training process. This will allow MDs to collectively contribute to improving the offloading model and enable continuous learning when new MDs join the network.
-- Addressing partially observable environment issues by designing a decentralized **Partially Observable Markov Decision Process (Dec-POMDP)**.
-- Extending the **Task Models** by considering interdependencies among tasks. This can be achieved by incorporating a **Task Call Graph Representation**.
-- Implementation of the D3QN algorithm using **PyTorch**, focusing on efficient **parallelization** and enhanced model stability.
-
-
-
-
-
-## Contributing 
-
-We welcome contributions! Here’s how you can get involved:
-
-1. **Fork the repository**: Create your own copy of the project.
-2. **Clone Your Fork**:
-
-``` bash
-  git clone https://github.com/<your-username>/<repo-name>.git  
-  cd <repo-name>
-```
-
-3. **Create a new branch**: Name your branch to reflect the changes you're making.
-   
-``` bash
-  git checkout -b feature/<add-future-direction-support>
-```
-
-4. **Commit your changes**: Write clear and concise commit messages.
-
-``` bash
-  git add * 
-  git commit -a -m "<add-future-direction-support>"  
-``` 
-
-5. **Push your branch**:
-
-``` bash
-  git push origin feature/<add-future-direction-support>
-```
-
-6. **Open a pull request**: Navigate to the repository and submit your pull request. Provide a detailed description of your work.
-
-For **bug reports** or **feature requests**, open a GitHub issue [here](https://github.com/ImanRht/QOCO/issues).
-
-## About Authors
-
-- [Iman Rahmati](https://scholar.google.com/citations?user=yHWKp6MAAAAJ&hl=en&oi=sra): Research Assistant in the Computer Science and Engineering Department at SUT.
-- [Hamed Shah-Mansouri](https://scholar.google.com/citations?user=dcjIFccAAAAJ&hl=en&oi=ao): Assistant Professor in the Electrical Engineering Department at SUT.
-- [Ali Movaghar](https://scholar.google.com/citations?user=BXNelwwAAAAJ&hl=en): Professor in the Computer Science and Engineering Department at SUT.
-
-
-
-## Primary References
-
-- H. Shah-Mansouri and V. W. Wong, “[Hierarchical fog-cloud computing for iot systems: A computation offloading game](https://ieeexplore.ieee.org/document/8360511)", IEEE Internet of Things Journal, May 2018.
-
-- M. Tang and V. W. Wong, "[Deep reinforcement learning for task offloading in mobile edge computing systems](https://ieeexplore.ieee.org/abstract/document/9253665)", IEEE Transactions on Mobile Computing, Nov 2020.
-
-- H. Zhou, K. Jiang, X. Liu, X. Li, and V. C. Leung, “[Deep reinforcement learning for energy-efficient computation offloading in mobile-edge computing](https://ieeexplore.ieee.org/document/9462445)”, IEEE Internet of Things Journal, Jun 2021.
-
-- L. Yang, H. Zhang, X. Li, H. Ji, and V. C. Leung, “[A distributed computation offloading strategy in small-cell networks integrated with mobile edge computing](https://ieeexplore.ieee.org/document/8519737)”, IEEE/ACM Transactions on Networking, Dec 2018.
-
+https://github.com/ImanRHT/QECO/blob/master/LICENSE
