@@ -41,3 +41,5 @@ The experiments are simulations, the effective-capacity mapping/feature weights 
 ## Public version
 
 The publication package is versioned on `codex/audited-paper-20261004` in `Sanya06C/Resilient_Task_Offloading`, with a draft pull request for review. It can be reproduced from that public branch; it is not described as merged into the default branch. The final delivery message links the verified public revision.
+
+Public upload verified through the GitHub contents API: the final PDF and reproduction notebook blob hashes exactly match the local committed files. Draft review: https://github.com/Sanya06C/Resilient_Task_Offloading/pull/1.
