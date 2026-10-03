@@ -1,0 +1,16 @@
+\begin{table*}[t]
+\centering\footnotesize
+\caption{EH ablation: five independent training seeds, ten episodes per seed. SD and UE intervals are over seed means. Terminal SOC and cumulative harvest use the 110-second endpoint only.}
+\label{tab:eh}
+\begin{tabular}{@{}llrrrrrr@{}}\toprule
+Stress & Harvest & UE (J) & UE 95\% CI & Viol. (\%) & Offload (\%) & Terminal SOC (\%) & Harvest/UE (mAh)\\\midrule
+Normal & Enabled & 364.61 $\pm$ 3.24 & [360.58, 368.64] & 51.99 $\pm$ 1.76 & 2.75 & 49.4523 $\pm$ 0.0058 & 2.0881 \\
+Normal & Disabled & 365.14 $\pm$ 3.95 & [360.24, 370.04] & 51.75 $\pm$ 2.13 & 3.20 & 49.3522 $\pm$ 0.0070 & 0.0000 \\
+Medium & Enabled & 367.48 $\pm$ 6.42 & [359.50, 375.46] & 52.13 $\pm$ 1.77 & 2.80 & 49.4473 $\pm$ 0.0113 & 2.0881 \\
+Medium & Disabled & 368.55 $\pm$ 7.98 & [358.65, 378.46] & 51.89 $\pm$ 2.14 & 3.27 & 49.3462 $\pm$ 0.0141 & 0.0000 \\
+High & Enabled & 369.71 $\pm$ 9.29 & [358.17, 381.24] & 52.23 $\pm$ 1.83 & 2.82 & 49.4434 $\pm$ 0.0163 & 2.0881 \\
+High & Disabled & 371.14 $\pm$ 11.39 & [357.00, 385.28] & 52.02 $\pm$ 2.17 & 3.29 & 49.3417 $\pm$ 0.0200 & 0.0000 \\
+\bottomrule\end{tabular}
+
+\par\smallskip\begin{minipage}{\textwidth}\footnotesize Harvest is the inferred external-source proxy. Total system harvest is 20 times the per-UE charge. Both conditions use the same checkpoint and eight-feature observation; Disabled sets harvest input/feature to zero.\end{minipage}
+\end{table*}

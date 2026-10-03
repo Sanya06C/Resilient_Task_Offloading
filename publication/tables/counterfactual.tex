@@ -1,0 +1,16 @@
+\begin{table*}[t]
+\centering\footnotesize
+\caption{Matched-task audit on 20 paired episodes per condition. Energy is per task; every deadline is 1.0\,s. Completion means use the same both-feasible task subset.}
+\label{tab:counter}
+\begin{tabular}{@{}llrrrrrrrr@{}}\toprule
+Stress & Policy & Tasks & $E_l^{\rm full}$ & $E_x^{\rm full}+E_w^{\rm obs}$ & Actual TX & $T_l$ & $T_o$ & Local feas. & Offload succ.\\\midrule
+Normal & Original & 7684 & 0.961 & 0.707 & 0.689 & 0.570 & 0.549 & 83.9 & 95.2 \\
+Normal & Selector & 7593 & 1.049 & 0.672 & 0.649 & 0.591 & 0.610 & 84.2 & 90.6 \\
+Medium & Original & 6807 & 0.955 & 1.141 & 1.034 & 0.558 & 0.698 & 77.7 & 67.6 \\
+Medium & Selector & 4623 & 1.132 & 1.139 & 1.073 & 0.674 & 0.636 & 44.3 & 78.8 \\
+High & Original & 6474 & 0.945 & 1.518 & 1.202 & 0.513 & 0.739 & 75.0 & 43.5 \\
+High & Selector & 3234 & 1.223 & 1.779 & 1.484 & -- & -- & 0.0 & 38.9 \\
+\bottomrule\end{tabular}
+
+\par\smallskip\begin{minipage}{\textwidth}\footnotesize $E_l^{\rm full}$ is full local service energy in J. The offload column combines full-transmission requirement with observed per-task post-transmission waiting energy; it is not an observed successful full-offload requirement for expired tasks. Actual TX is spent energy, including expired transmissions. $T_l$ is a no-future-arrivals FIFO prediction and $T_o$ is observed successful completion (s), restricted to the intersection of local predicted feasibility and actual offload success. Feasibility/success columns (\%) use all offloaded tasks. A dash means an empty both-feasible subset, not zero completion time.\end{minipage}
+\end{table*}

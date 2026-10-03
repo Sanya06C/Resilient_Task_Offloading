@@ -1,0 +1,49 @@
+{
+  "seed": 101,
+  "train_episodes": 100,
+  "total_gradient_steps": 10990,
+  "elapsed_seconds": 235.03582859039307,
+  "train_split_rows": 56726,
+  "date_range": "2018-07-31 to 2018-09-08 (40 calendar days)",
+  "final_mean_soc": 0.4738645398149216,
+  "final_min_soc": 0.472555537153093,
+  "checkpoint_hashes": {
+    "eh_d3qn.data-00000-of-00001": "bbe392aa7bc1f3826b8cdd9c0d6d661b949f7a0905df3e98c4920712eea6dfe8",
+    "eh_d3qn.index": "efb35ad173d0556333b7a1b045759630a291c944f2a53840ec243f81a65a323c",
+    "eh_d3qn.meta": "d16b5e78ca7f6cddd170c9ffa7fdb63bdc6e3c1fc0eeb44c8567b868c02d89ea"
+  },
+  "log_milestones": [
+    {
+      "episode": 25,
+      "epsilon": 0.98,
+      "gradient_steps": 2740,
+      "mean_final_soc": 0.4938561727770884,
+      "minimum_soc": 0.49326988222717805,
+      "failures": 0
+    },
+    {
+      "episode": 50,
+      "epsilon": 0.98,
+      "gradient_steps": 5490,
+      "mean_final_soc": 0.4849786809590079,
+      "minimum_soc": 0.48422116935767134,
+      "failures": 0
+    },
+    {
+      "episode": 75,
+      "epsilon": 0.98,
+      "gradient_steps": 8240,
+      "mean_final_soc": 0.4790032934167698,
+      "minimum_soc": 0.4779271644346727,
+      "failures": 0
+    },
+    {
+      "episode": 100,
+      "epsilon": 0.98,
+      "gradient_steps": 10990,
+      "mean_final_soc": 0.4738645398149216,
+      "minimum_soc": 0.472555537153093,
+      "failures": 0
+    }
+  ]
+}

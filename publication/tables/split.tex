@@ -1,0 +1,11 @@
+\begin{table*}[t]
+\centering\footnotesize
+\caption{Exact UCLM row partitions. Elapsed durations are end timestamp minus start timestamp, not counts of full days.}
+\label{tab:split}
+\begin{tabular}{@{}lrllll@{}}\toprule
+Partition & Rows & First timestamp & Last timestamp & Elapsed & Purpose\\\midrule
+Train & 56726 & 2018-07-31 13:07:15 & 2018-09-08 23:59:56 & 39d 10h 52m 41s & Training allocation; initial 19 rows consumed \\
+Val & 18686 & 2018-09-09 00:00:56 & 2018-09-21 23:59:58 & 12d 23h 59m 2s & Reserved; unused in model selection \\
+Test & 18026 & 2018-09-22 00:00:58 & 2018-10-04 12:43:11 & 12d 12h 42m 13s & Evaluation allocation; brief selected window \\
+\bottomrule\end{tabular}
+\end{table*}

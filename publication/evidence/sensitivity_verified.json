@@ -1,0 +1,81 @@
+{
+  "battery_capacity": [
+    {
+      "capacity_mah": 1000.0,
+      "harvest_enabled": false,
+      "first_ue_zero_hours": 1.1577777777777778,
+      "first_ue_below_001percent_hours": 1.1575833333333334,
+      "mean_soc_below_001percent_hours": 1.2048055555555557,
+      "demand": "Repeated 50 Always-Local workload traces; no policy rerouting; starts test row 480",
+      "threshold_soc_fraction": 0.0001
+    },
+    {
+      "capacity_mah": 1000.0,
+      "harvest_enabled": true,
+      "first_ue_zero_hours": 1.2495555555555558,
+      "first_ue_below_001percent_hours": 1.2493055555555554,
+      "mean_soc_below_001percent_hours": 1.3097500000000002,
+      "demand": "Repeated 50 Always-Local workload traces; no policy rerouting; starts test row 480",
+      "threshold_soc_fraction": 0.0001
+    },
+    {
+      "capacity_mah": 2000.0,
+      "harvest_enabled": false,
+      "first_ue_zero_hours": 2.325833333333333,
+      "first_ue_below_001percent_hours": 2.3254166666666665,
+      "mean_soc_below_001percent_hours": 2.42025,
+      "demand": "Repeated 50 Always-Local workload traces; no policy rerouting; starts test row 480",
+      "threshold_soc_fraction": 0.0001
+    },
+    {
+      "capacity_mah": 2000.0,
+      "harvest_enabled": true,
+      "first_ue_zero_hours": 2.644833333333333,
+      "first_ue_below_001percent_hours": 2.6443888888888893,
+      "mean_soc_below_001percent_hours": 2.766222222222223,
+      "demand": "Repeated 50 Always-Local workload traces; no policy rerouting; starts test row 480",
+      "threshold_soc_fraction": 0.0001
+    },
+    {
+      "capacity_mah": 3000.0,
+      "harvest_enabled": false,
+      "first_ue_zero_hours": 3.500166666666667,
+      "first_ue_below_001percent_hours": 3.4993333333333334,
+      "mean_soc_below_001percent_hours": 3.640833333333333,
+      "demand": "Repeated 50 Always-Local workload traces; no policy rerouting; starts test row 480",
+      "threshold_soc_fraction": 0.0001
+    },
+    {
+      "capacity_mah": 3000.0,
+      "harvest_enabled": true,
+      "first_ue_zero_hours": 3.931,
+      "first_ue_below_001percent_hours": 3.9300833333333336,
+      "mean_soc_below_001percent_hours": 4.101805555555556,
+      "demand": "Repeated 50 Always-Local workload traces; no policy rerouting; starts test row 480",
+      "threshold_soc_fraction": 0.0001
+    }
+  ],
+  "analytical_exponent_crossover": [
+    {
+      "alpha": 0.3333333333333333,
+      "tx_only_break_even_capacity": 10.067340067340067,
+      "break_even_multiplier": 2.6893039516553485
+    },
+    {
+      "alpha": 0.5,
+      "tx_only_break_even_capacity": 10.067340067340067,
+      "break_even_multiplier": 1.933866958982562
+    },
+    {
+      "alpha": 0.6666666666666666,
+      "tx_only_break_even_capacity": 10.067340067340067,
+      "break_even_multiplier": 1.639909738874475
+    },
+    {
+      "alpha": 1.0,
+      "tx_only_break_even_capacity": 10.067340067340067,
+      "break_even_multiplier": 1.3906354515050168
+    }
+  ],
+  "status": "Analytical TX-only crossover; deterministic fixed-demand battery sensitivity"
+}

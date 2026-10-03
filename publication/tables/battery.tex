@@ -1,0 +1,16 @@
+\begin{table}[t]
+\centering\footnotesize
+\caption{Deterministic fixed-demand ledger sensitivity at 50\% initial SOC.}
+\label{tab:battery}
+\begin{tabular}{@{}rlrr@{}}\toprule
+Capacity (mAh) & EH & First empty (h) & Mean low (h)\\\midrule
+1000 & Off & 1.1578 & 1.2048 \\
+1000 & On & 1.2496 & 1.3098 \\
+2000 & Off & 2.3258 & 2.4202 \\
+2000 & On & 2.6448 & 2.7662 \\
+3000 & Off & 3.5002 & 3.6408 \\
+3000 & On & 3.9310 & 4.1018 \\
+\bottomrule\end{tabular}
+
+\par\smallskip\begin{minipage}{\columnwidth}\footnotesize First empty denotes the first UE with zero model charge; Mean low denotes mean SOC at or below 0.01\%. Fifty Always-Local workload activity traces repeat under continuous demand. These are charge-ledger depletion/threshold times under assumed powers and inferred harvest, not field lifetime or post-depletion task-service measurements.\end{minipage}
+\end{table}

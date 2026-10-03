@@ -1,0 +1,12 @@
+__pycache__/
+*.aux
+*.out
+*.log
+evidence/*.log
+evidence/page-*.png
+evidence/final-page-*.png
+evidence/contact*.png
+evidence/final_contact.png
+evidence/*pdf_text.txt
+evidence/original_manuscript_text.txt
+final-check-*.png

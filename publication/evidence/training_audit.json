@@ -1,0 +1,27 @@
+{
+  "101": {
+    "episodes": 100,
+    "updates": 10990,
+    "hashes_valid": true
+  },
+  "202": {
+    "episodes": 100,
+    "updates": 10988,
+    "hashes_valid": true
+  },
+  "303": {
+    "episodes": 100,
+    "updates": 10991,
+    "hashes_valid": true
+  },
+  "404": {
+    "episodes": 100,
+    "updates": 10988,
+    "hashes_valid": true
+  },
+  "505": {
+    "episodes": 100,
+    "updates": 10990,
+    "hashes_valid": true
+  }
+}
