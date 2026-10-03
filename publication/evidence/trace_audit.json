@@ -1,0 +1,55 @@
+{
+  "train": {
+    "records": 56726,
+    "start": "2018-07-31T13:07:15.000000",
+    "end": "2018-09-08T23:59:56.000000",
+    "elapsed_seconds": 3408761,
+    "cadence_seconds_counts": {
+      "59": 32,
+      "60": 51400,
+      "61": 5293
+    }
+  },
+  "val": {
+    "records": 18686,
+    "start": "2018-09-09T00:00:56.000000",
+    "end": "2018-09-21T23:59:58.000000",
+    "elapsed_seconds": 1123142,
+    "cadence_seconds_counts": {
+      "60": 16819,
+      "61": 1865,
+      "237": 1
+    }
+  },
+  "test": {
+    "records": 18026,
+    "start": "2018-09-22T00:00:58.000000",
+    "end": "2018-10-04T12:43:11.000000",
+    "elapsed_seconds": 1082533,
+    "cadence_seconds_counts": {
+      "60": 16992,
+      "61": 1033
+    }
+  },
+  "all": {
+    "records": 93438,
+    "start": "2018-07-31T13:07:15.000000",
+    "end": "2018-10-04T12:43:11.000000",
+    "elapsed_seconds": 5614556,
+    "cadence_seconds_counts": {
+      "59": 32,
+      "60": 85213,
+      "61": 8191,
+      "237": 1
+    }
+  },
+  "trace_sha256": "9c9d66ef8d9d6507623186067d8f7e3e06dc1029c9e2f2f02f4e55a32418e2a8",
+  "training_used_seconds": 1100,
+  "evaluation_start_actual_timestamp": "2018-09-22T09:01:29.000000",
+  "training_end_actual_timestamp": "2018-07-31T13:25:16.000000",
+  "test_first_two_minutes": [
+    "2018-09-22T09:01:29.000000",
+    "2018-09-22T09:02:29.000000",
+    "2018-09-22T09:03:29.000000"
+  ]
+}

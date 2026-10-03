@@ -1,0 +1,98 @@
+{
+  "Normal": {
+    "Original": {
+      "episodes": 20,
+      "offloaded_tasks": 7684,
+      "local_full_work_energy_j": 0.9607132389964299,
+      "offload_full_work_tx_plus_task_wait_j": 0.7074785144814993,
+      "local_predicted_terminal_time_s_censored": 0.659552316501822,
+      "offload_observed_terminal_time_s": 0.596121811556481,
+      "local_predicted_feasible_fraction": 0.8388859968766268,
+      "offload_observed_success_fraction": 0.9519781363872983,
+      "actual_tx_energy_per_task_j": 0.6894856174157177,
+      "deadline_s": 1.0,
+      "both_feasible_tasks": 6246,
+      "local_mean_completion_s_both_feasible": 0.5698527057316684,
+      "offload_mean_completion_s_both_feasible": 0.5491194364393212
+    },
+    "Selector": {
+      "episodes": 20,
+      "offloaded_tasks": 7593,
+      "local_full_work_energy_j": 1.0494340005540783,
+      "offload_full_work_tx_plus_task_wait_j": 0.671579001697796,
+      "local_predicted_terminal_time_s_censored": 0.6813117344922955,
+      "offload_observed_terminal_time_s": 0.6680890293691558,
+      "local_predicted_feasible_fraction": 0.841827999473199,
+      "offload_observed_success_fraction": 0.9059660213354406,
+      "actual_tx_energy_per_task_j": 0.6489958255030925,
+      "deadline_s": 1.0,
+      "both_feasible_tasks": 6004,
+      "local_mean_completion_s_both_feasible": 0.5912891405729515,
+      "offload_mean_completion_s_both_feasible": 0.6102764823451033
+    }
+  },
+  "Medium": {
+    "Original": {
+      "episodes": 20,
+      "offloaded_tasks": 6807,
+      "local_full_work_energy_j": 0.9547077119137842,
+      "offload_full_work_tx_plus_task_wait_j": 1.1411554540574178,
+      "local_predicted_terminal_time_s_censored": 0.711899515204936,
+      "offload_observed_terminal_time_s": 0.8083443514029676,
+      "local_predicted_feasible_fraction": 0.7771411781989129,
+      "offload_observed_success_fraction": 0.6763625679447628,
+      "actual_tx_energy_per_task_j": 1.0337878498387238,
+      "deadline_s": 1.0,
+      "both_feasible_tasks": 4100,
+      "local_mean_completion_s_both_feasible": 0.5578780487804879,
+      "offload_mean_completion_s_both_feasible": 0.6980243902439026
+    },
+    "Selector": {
+      "episodes": 20,
+      "offloaded_tasks": 4623,
+      "local_full_work_energy_j": 1.1318382927506827,
+      "offload_full_work_tx_plus_task_wait_j": 1.1389605297255885,
+      "local_predicted_terminal_time_s_censored": 0.9131083711875406,
+      "offload_observed_terminal_time_s": 0.7769413800562406,
+      "local_predicted_feasible_fraction": 0.44321868916288126,
+      "offload_observed_success_fraction": 0.7878001297858533,
+      "actual_tx_energy_per_task_j": 1.072910808359862,
+      "deadline_s": 1.0,
+      "both_feasible_tasks": 2007,
+      "local_mean_completion_s_both_feasible": 0.6741405082212258,
+      "offload_mean_completion_s_both_feasible": 0.6359242650722472
+    }
+  },
+  "High": {
+    "Original": {
+      "episodes": 20,
+      "offloaded_tasks": 6474,
+      "local_full_work_energy_j": 0.9454238050851074,
+      "offload_full_work_tx_plus_task_wait_j": 1.5180991422629728,
+      "local_predicted_terminal_time_s_censored": 0.7364535063330243,
+      "offload_observed_terminal_time_s": 0.8904541241890639,
+      "local_predicted_feasible_fraction": 0.7502316960148285,
+      "offload_observed_success_fraction": 0.4345072598084646,
+      "actual_tx_energy_per_task_j": 1.2024319222451039,
+      "deadline_s": 1.0,
+      "both_feasible_tasks": 2626,
+      "local_mean_completion_s_both_feasible": 0.512909367859863,
+      "offload_mean_completion_s_both_feasible": 0.7389946686976391
+    },
+    "Selector": {
+      "episodes": 20,
+      "offloaded_tasks": 3234,
+      "local_full_work_energy_j": 1.2234149492369062,
+      "offload_full_work_tx_plus_task_wait_j": 1.778831401062023,
+      "local_predicted_terminal_time_s_censored": 1.0999999999999996,
+      "offload_observed_terminal_time_s": 0.9307977736549164,
+      "local_predicted_feasible_fraction": 0.0,
+      "offload_observed_success_fraction": 0.38868274582560297,
+      "actual_tx_energy_per_task_j": 1.4840264103801968,
+      "deadline_s": 1.0,
+      "both_feasible_tasks": 0,
+      "local_mean_completion_s_both_feasible": null,
+      "offload_mean_completion_s_both_feasible": null
+    }
+  }
+}

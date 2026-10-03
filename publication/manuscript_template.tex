@@ -1,0 +1,191 @@
+\documentclass[conference]{IEEEtran}
+\usepackage{amsmath,amssymb,graphicx,booktabs,tabularx,array,cite}
+\usepackage[hidelinks]{hyperref}
+\usepackage{microtype}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+\graphicspath{{figures/}}
+\begin{document}
+\title{Resilient Task Offloading under Network Stress and Energy Variability in IIoT}
+\author{\IEEEauthorblockN{Sanya Chavan}\IEEEauthorblockA{IT Department / K J Somaiya School of Engineering\\Maharashtra, India}}
+\maketitle
+\begin{abstract}
+The energy benefit of industrial edge offloading depends on communication service, task deadlines, and battery supply. We study these dependencies using frozen QECO checkpoints, traffic-derived effective-capacity scenarios, explicit power--time accounting, and a battery-aware extension driven by the UCLM outdoor harvesting trace. On 1,000 paired workload episodes, a decision-time selector reduces user-equipment energy by 7.02\% and deadline-violation counts by 45.39\% at Medium stress relative to original QECO. Always-Local, Fixed-Edge-0, and a greedy energy/deadline rule expose the energy--service tradeoff; low expenditure alone does not establish better service. An additional five-workload-seed experiment evaluates the frozen-policy comparison with seed-level uncertainty. Five independently trained EH models are evaluated with harvesting enabled and disabled on the same 110-second test window; nested episodes are averaged within each seed before inference. Harvesting produces a small positive battery-reserve difference, while every two-sided exact seed-level test of the reported EH energy and reserve effects has $p=0.0625$. Combining the selector with EH-QECO improves deadline service while increasing expenditure relative to the largely local EH policy. Analytical stress-exponent sensitivity and deterministic battery-demand replay quantify parameter dependence. These results support an auditable simulation framework and conditional offloading decisions, rather than hardware validation, a calibrated wireless degradation law, or a large EH performance gain.
+\end{abstract}
+\begin{IEEEkeywords}
+Industrial Internet of Things, mobile edge computing, task offloading, energy harvesting, deep reinforcement learning, reproducibility.
+\end{IEEEkeywords}
+
+\section{Introduction}
+Industrial endpoints must balance computation, communication, and timely service. Edge offloading can replace local CPU work with radio transmission and remote waiting; whether that replacement saves device energy depends on the operating condition. Surveys describe multiple task-offloading architectures and objectives \cite{Islam2021_supp11,Wang2020_supp14,Yang2023_supp18}. Industrial edge deployments and monitoring systems provide application context \cite{Donovan2022_supp8,Singh2024_supp3,Mirani2024_supp7}; they do not validate the offloading policy studied here.
+
+QECO combines dueling double deep Q-learning with recurrent state for QoE-oriented computation offloading \cite{QECO,QECOCode}. We freeze its supplied checkpoints to study sensitivity to communication service, then apply a decision-time selector without learning. Separately, EH-QECO augments the observation with battery reserve and harvesting availability. The resulting experiments address three questions: how traffic-derived service scenarios affect a fixed policy; whether action correction improves its energy--deadline tradeoff; and how measured renewable input affects a retrained policy's battery ledger.
+
+The contributions are a controlled stress replay with three quantitative comparator rules; independent workload-seed validation of the frozen policy and training-seed analysis of the EH branch; corrected matched-task forecasts using each policy's executed trajectory; a combined selector/EH experiment; and a reproducibility package that generates the numerical tables from saved records. All hardware powers, stress weights, and conversion efficiencies are explicit assumptions. No claim is made that the selector outperforms every baseline on every objective.
+
+\subsection{Related Work and Scope}
+Industrial latency-critical offloading \cite{Mali2024_s3}, joint offloading/resource allocation \cite{Jiang2023_s30}, adaptive matching \cite{Chi2024_s26}, partial offloading in multi-RAT networks \cite{Qin2021_s31}, and digital-twin-aided edge selection \cite{DoDuy2022_s17} establish relevant decision contexts. EH offloading has been studied through dynamic optimization and learning \cite{Mao2016_s2,Min2017_s18,Mei2023_s23}. These works motivate energy availability as a system state; their numerical gains are not transferred to this study.
+
+\begin{table}[t]
+\centering\small
+\caption{Scope of the present comparison}
+\label{tab:scope}
+\begin{tabularx}{\columnwidth}{@{}lY@{}}\toprule
+Evidence & Role and boundary\\\midrule
+QECO \cite{QECO} & Supplied checkpoints; fixed-policy service sensitivity.\\
+EH offloading \cite{Mao2016_s2,Min2017_s18,Mei2023_s23} & Motivation for battery and renewable-input states.\\
+Industrial monitoring \cite{Singh2024_supp3,Mirani2024_supp7} & Application context; separate from policy validation.\\
+Traffic \cite{Traffic} and UCLM \cite{UCLM,UCLMData} & Empirical inputs to simulated execution.\\\bottomrule
+\end{tabularx}
+\end{table}
+The literature component is a focused contextual synthesis, not an exhaustive systematic review or an independent deployment census. The inherited 31-study coding matrix is retained in the supplementary archive for traceability, but broad corpus percentages are not used as experimental evidence. This reduces space and avoids implying that every inherited bibliographic or classification entry has been independently revalidated.
+
+\section{System Model and Method}
+\label{sec:method}
+\subsection{Frozen QECO and Workload}
+There are 20 user-equipment devices (UEs), two edges, and three actions: local, edge 0, and edge 1. Each episode has 110 slots of $\Delta t=0.1$\,s. Task sizes are in $[1,7]$ simulator data units, computation densities in $\{0.197,0.297,0.397\}$, and arrivals occur with probability 0.3 per UE per active slot. The last ten slots have no new arrivals; every task has a ten-slot (1\,s) deadline. UE and edge computation capacities are 2.6 and 42 simulator work units per second. These are abstract simulator units, not claimed measurements of bits, cycles, or a named industrial device.
+
+The frozen branch uses the repository's 20 per-UE PerformanceMode/800 checkpoints with greedy evaluation and no updates. The original six-feature observation includes the task, queue, energy-preference, and edge-backlog information supplied by the implementation. Its static energy-preference values are not physical SOC. Existing observation bookkeeping behavior is preserved for this fixed-checkpoint audit, so conclusions describe the audited implementation rather than a corrected, retrained QECO baseline. The first replay uses the 1,000 saved workloads of the frozen artifact. The additional validation uses five independent workload generators with seeds 1101, 2202, 3303, 4404, and 5505, ten episodes each, and the same checkpoints. These are workload seeds, not independent QECO training seeds.
+
+\subsection{Energy Accounting and Deadline Metrics}
+Configured UE CPU, radio, and idle powers are 2.0, 2.3, and 0.1\,W; edge CPU power is 5.0\,W. The evaluation ledger records serviced work, including work spent on tasks that later fail. For each UE and slot, CPU and radio activity fractions $\ell$ and $x$ are obtained from actually processed volumes. Post-transmission waiting is charged as a union of waiting intervals, excluding overlapping CPU/radio activity. Thus
+\begin{equation}
+E_{\rm UE}=\Delta t\sum_{u,t}(P_l\ell_{u,t}+P_xx_{u,t}+P_iw_{u,t}),
+\label{eq:energy}
+\end{equation}
+where $w$ is the non-overlapping task-wait fraction. System energy adds share-allocated edge computation. Background idle outside task-related waiting is excluded from this ledger. Powers are uncalibrated scenario assumptions.
+
+The violation rate is failed/deadline-expired tasks divided by arrivals. Terminal time includes both completion and expiry; completion time is used only for successfully completed tasks. Lower expenditure can result from incomplete work, so energy is always interpreted alongside violations and offloading fraction.
+
+\subsection{Traffic-Derived Communication Stress}
+The smart-factory traffic dataset concerns malware communication \cite{Traffic}, not measured wireless capacity. Frozen development inputs contain 195,806 windows (191,008 BENIGN and 4,798 ABNORMAL); only sources a\_day1 and s\_day1 contain both labels and enter the source-matched severity calculation. All 4,798 ABNORMAL windows and 13,186 BENIGN windows in those sources define the reported profiles. ABNORMAL is not relabeled as a physical congestion measurement. Classifier predictions and held-out classifier data do not enter the offloading simulation.
+
+Two author-defined weight sets serve different purposes. The severity score weights source-normalized benign percentiles of packet rate, new flows, unique sources, unique destinations, short-flow churn, and persistent-flow occupancy. The weights are 0.35, 0.20, 0.10, 0.10, 0.15, and 0.10. Within-source ABNORMAL terciles determine Low, Medium, and High labels. Separately, the offered-load multiplier is the weighted geometric mean of packet-rate, new-flow, source-count, and destination-count ratios to source-specific benign medians, clipped below at one, with weights 0.70, 0.15, 0.075, and 0.075. Source-balanced medians and a monotonic envelope produce $M$.
+\begin{equation}
+C_{\rm eff}=14\max(M^{-\alpha},0.25),\qquad \alpha=1/2.
+\label{eq:capacity}
+\end{equation}
+The weights prioritize packet activity and flow-state pressure as an engineering choice. They are not estimated from a queueing law, calibrated to RF measurements, or established by literature. The square root compresses the multiplier as an author-defined sensitivity proxy; it is not an M/M/1 derivation. Exponent sensitivity is quantified in Section~\ref{sec:sensitivity}; weight sensitivity has not been validated. No fading, interference, loss, retransmission, or jitter process is invented.
+\input{tables/stress.tex}
+Normal and Low map to identical capacity 14.0; they are the same simulated service condition. Quantitative comparisons use Normal, Medium, and High only.
+
+\subsection{Matched-Task Counterfactual and Energy Boundary}
+\label{sec:matched}
+Counterfactual analysis uses each policy's saved executed actions and its own queue trajectory, rather than proposed original actions inside the selector trajectory. For the first 100 paired saved episodes per condition, deterministic action replay must reproduce the saved delays and transmitted volumes. At each actual offload decision, the local FIFO forecast includes known backlog but excludes future arrivals. An infeasible local forecast is censored after the deadline and is not reported as an actual completion.
+
+For a task of size $s$ and density $\rho$, the equal-work local service requirement and full-transmission requirement are
+\begin{equation}
+E_l^{\rm full}=P_l s\rho/C_l,\qquad E_x^{\rm full}=P_x s/C_{\rm eff}.
+\label{eq:matched}
+\end{equation}
+The offload full-work attribution adds 0.1\,W times the task's observed post-transmission wait. This is a per-task attribution, distinct from the union-based episode ledger. The table reports these requirements, actual expended TX energy, forecast local feasibility, and observed offload success on the same offloaded-task cohort. Completion times are compared only on the intersection of locally predicted-feasible and actually successful offloaded tasks. Changing a whole policy would alter future queues; this analysis is a conditional forecast, not an executed Always-Local rerun.
+
+Transmission-only break-even capacity is
+\begin{equation}
+C_x^*(\rho)=\frac{P_xC_l}{P_l\rho}.
+\label{eq:crossover}
+\end{equation}
+For the three densities it is 15.18, 10.07, and 7.53 units/s. All exceed High's 6.3269. This is an equal-full-work boundary under the configured powers; early expiry can reduce observed expenditure, and task-wait energy raises the true full-offload requirement. An aggregate policy crossover is not located by this equation.
+
+\subsection{Selector and Comparator Rules}
+At each arrival, the selector forecasts local and both edge alternatives from the common pre-step state. Known FIFO backlog is simulated without future arrivals; edge service assumes the current active-user share. Among predicted deadline-feasible actions, it minimizes predicted UE energy. It retains QECO on a minimum-energy tie, otherwise uses deterministic action-order tie-breaking. If no action is predicted feasible, it retains QECO. No future arrival or realized outcome is available to the decision.
+
+Always-Local chooses local on every arrival; Fixed-Edge-0 always chooses edge 0. The additional Greedy rule uses the same forecasting machinery but never consults D3QN: it chooses a feasible minimum-energy action, breaks ties in local/edge-0/edge-1 order, and chooses the smallest predicted terminal delay if none is feasible. This is an author-defined rule rather than a reimplementation of a published competing DRL algorithm. Its large similarity to the selector makes it an informative test of whether the learned proposal itself adds value.
+
+\section{Energy-Harvesting Extension}
+\label{sec:ehmethod}
+\subsection{Trace, Partitions, and Actual Coverage}
+UCLM provides an outdoor IoT harvesting trace \cite{UCLM,UCLMData}. Raw timestamps, currents, and voltage are preserved. Table~\ref{tab:split} gives the exact row-defined chronological partitions. The 93,438 observations span 66 calendar dates, with an elapsed duration of 64\,days 23\,h 35\,min 56\,s. Nominal cadence is one minute; observed intervals comprise 32 at 59\,s, 85,213 at 60\,s, 8,191 at 61\,s, and one 237\,s gap.
+\input{tables/split.tex}
+There are no rows outside the three partitions. However, assigning a row to a partition is not evidence that it was consumed by a rollout. Each saved model trained for 100 episodes, 1,100\,s on the nominal time grid, using only the initial approximately 19 training rows. The validation partition was reserved but unused: no validation-based hyperparameter search or checkpoint selection is claimed. Core testing uses ten episodes per model, 110\,s, starting at test row 540 (raw timestamp 22 September 2018, 09:01:29), approximately two source records. It does not cover every test day. The main test window is a daytime scenario, not representative diurnal sampling.
+
+The inherited simulation holds each record for 600 slots (60 nominal seconds); it does not replay the irregular timestamp intervals exactly. This nominal-grid approximation is retained to reproduce the reported experiments, with timestamps used for partition identification. A claim of exact wall-clock trace replay would therefore be inappropriate.
+
+\subsection{Battery Ledger and Observation}
+Positive battery current is treated as charging in the trace reconstruction; the external-source proxy is $I_h=\max(I_{\rm node}+I_{\rm battery},0)$. This assumes currents meet at a common bus and neglects converter losses beyond the stated efficiency. It is a modelling reconstruction, not measured PV maximum-power-point output. PV short-circuit current is not converted to harvested power.
+
+Stored charge $q$ in mAh is updated by
+\begin{equation}
+q_{t+1}=\left[\min(Q,q_t+\eta_c I_h\Delta t/3600)-\frac{1000P_b\Delta t}{3600V_t\eta_d}\right]_+,
+\label{eq:battery}
+\end{equation}
+where $Q=2,000$\,mAh, initial SOC $q_0/Q=0.5$, and $\eta_c=\eta_d=0.95$. Efficiencies and initial SOC are assumptions. $V_t$ is the trace battery voltage with a 3.3\,V lower clamp, not a fixed 3.7\,V discharge voltage. The battery demand $P_b=P_l\ell+P_xx+P_i[1-\max(\ell,x)]_+$ includes background idle and concurrent CPU/radio demand. It therefore differs from the task-related energy ledger in Eq.~\eqref{eq:energy}; SOC cannot be derived by dividing the table's UE energy by nominal voltage.
+
+Battery SOC and the trace pointer persist across the ten episodes; task queues reset. The eight-feature observation appends current SOC and $\min(I_h/500,1)$ to the original six features on active arrivals. No future harvesting values are supplied. EH training uses a shared D3QN network, one-step recurrent input with zero supplied recurrent histories, rather than the original 20-policy ten-step history configuration. Hence it has an LSTM layer but the experiment does not validate learned temporal harvesting prediction.
+
+\subsection{Training and EH-Disabled Definition}
+The five independent training seeds are 101, 202, 303, 404, and 505. Checkpoint hashes match the recorded metadata. Training uses Normal capacity, generated workloads, learning rate 0.002, discount 0.9, replay size 2,000, batch size 32, target replacement every 200 updates, and epsilon increasing by 0.002 to 0.98. The saved update counts are 10,990, 10,988, 10,991, 10,988, and 10,990 (54,947 total). The reward is
+\begin{equation}
+r=-2(1-\mathrm{SOC})-20U-0.15b-0.01a,
+\label{eq:reward}
+\end{equation}
+where $U$ is cumulative unmet charge, $b$ is the maximum local/transmission backlog in slots, and $a\in\{0,1,2\}$. This is an author-defined reward and changes the original QECO objective; it does not explicitly penalize realized deadline failure.
+
+EH-disabled is an \emph{evaluation ablation of the same EH-trained checkpoint}, not a separately retrained non-EH agent. It retains all eight features, the same seed/model, the same saved workloads 0000--0009, the same initial 50\% SOC, efficiencies, persistent battery, stress, and trace voltage. Harvest input and its observation feature are set to zero. SOC evolves under the no-harvest ledger. Each enabled/disabled condition starts from a new battery/trace instance, and evaluation is greedy. The comparison jointly changes energy input and observed current availability; it does not isolate the architectural benefit of observing SOC.
+
+\subsection{Energy-Causality Boundary}
+The inherited environment checks the charge needed for the proposed action and records insufficient-supply events. However, its fallback assigns local action and still calls the base service engine; it does not stall all ongoing CPU/radio service when charge is exhausted. Clipping charge at zero consequently enforces a bounded ledger, not strict execution-level energy causality. All core short rollouts remain above depletion with zero recorded insufficient-charge events, so this defect is inactive there. Post-depletion task-success and energy-failure counts from the old multi-hour runs are excluded from the conclusions. Hardware brownout prevention and causal battery-empty operation have not been established.
+
+\section{Experimental Design and Statistical Analysis}
+The 1,000-episode comparison is conditional on fixed checkpoints and saved workload sequence. Means, episode SDs, and Student-$t$ 95\% mean intervals are reported; paired differences use aligned episode indices. This estimates workload uncertainty under those checkpoints, not training uncertainty. The separate five-seed workload experiment averages ten episode metrics within each workload seed before inference.
+
+For EH, each independent training seed contributes one mean over its ten nested episodes. No analysis treats five seeds times ten episodes as 50 independent trained models. Reported SD is the sample SD of five seed means; the mean interval is $\bar x\pm t_{0.975,4}s/\sqrt5$. Paired differences are computed seed-by-seed. Two-sided exact sign-flip tests enumerate all $2^5$ sign assignments and use absolute mean difference. Parametric paired-$t$ intervals describe uncertainty under normal seed-effect assumptions; the exact test has coarse resolution and need not agree with those intervals. Exact tests are the inferential basis for EH claims; no reported EH benefit meets the 0.05 threshold. Tests are exploratory across multiple stresses and outcomes.
+
+Energy is a per-episode 20-UE total unless explicitly marked per task. SOC is reported in percent; an SOC difference is in percentage points (pp). The average of ten cumulative episode-end readings is not terminal SOC or total harvested charge. Terminal metrics use episode 9 only, after the full 110\,s.
+
+\section{Results}
+\subsection{Frozen-Policy Stress Replay and Baselines}
+\input{tables/main_comparison.tex}
+The selector's Medium UE-energy reduction relative to QECO is 7.02\%; violation counts fall 45.39\%. High reductions are 7.65\% and 32.26\%, respectively. These relative count reductions are distinct from percentage-point changes in failure rates. Paired intervals and additional workload-seed results are reported in Table~\ref{tab:mainstats}.
+\input{tables/main_statistics.tex}
+Always-Local uses less energy than the selector under some conditions but misses more deadlines. Fixed-Edge-0 incurs heavy radio expenditure and increasing violations as capacity falls. Greedy achieves a strong service--energy tradeoff; the selector cannot claim a general advantage over it. Baseline episode CIs reflect uncertainty over this particular replay workload distribution. Deterministic policy rules have no training seeds.
+
+\begin{figure}[t]\centering
+\includegraphics[width=\columnwidth]{comparison.pdf}
+\caption{Paired saved-workload replay: UE energy and deadline violations are shown together. All three conditions have 1,000 episodes. Points use mean episode rates; error bars are 95\% mean intervals. Lower energy alone is insufficient to rank policies.}
+\label{fig:comparison}\end{figure}
+
+\subsection{Corrected Matched-Task Audit}
+\input{tables/counterfactual.tex}
+The local counterfactual and actual offload refer to the same offloaded tasks, but only the local outcome is a decision-time forecast. Completion means on the both-feasible cohort avoid treating expired tasks as completed. Full-work energy requirements can exceed actually expended TX energy because transmission may end at expiry. The earlier aggregate 28.25\%, $-8.54$\%, and $-26.54$\% matched figures mixed full local service requirements with realized, potentially incomplete offload work; they are withdrawn as equal-service efficiency claims. The corrected analysis supports the transmission-cost mechanism without asserting an executed counterfactual completion for every failed task.
+
+\subsection{EH Ablation at the Training-Seed Level}
+\input{tables/eh_metrics.tex}
+\input{tables/eh_differences.tex}
+The mean episode-end SOC differences and terminal SOC differences are explicitly separated. TX and UE-energy changes are small compared with the 20-UE episode budget. Seed-level parametric intervals may exclude zero, but exact paired tests have $p=0.0625$; the findings therefore describe consistent observed direction, not a conventionally significant improvement across five models. No multiplicity-adjusted significance or battery-exhaustion prevention is claimed.
+
+\subsection{Why EH Has More Deadline Violations}
+The EH policy largely selects local execution, producing approximately 52\% violations, whereas the frozen selector's Normal result is approximately 7\%. Both use the same task sizes, densities, arrival probability, one-second deadlines, and capacities for core evaluation, but their policy training, observation, recurrent input, reward, and battery demand differ. In particular Eq.~\eqref{eq:reward} penalizes action index and backlog while valuing reserve and omitting direct realized deadline penalties. These design differences and the observed local routing bias provide a plausible explanation, not a demonstrated causal decomposition. The enabled/disabled ablation cannot attribute the gap between branches to harvesting alone.
+
+\subsection{Combined Selector and EH-QECO}
+\input{tables/combined.tex}
+The combined experiment uses the same five EH checkpoints, ten workloads, test window, and battery initialization as the core EH experiment. The selector runs on the EH environment's actual queues and effective capacity. It reduces violations markedly relative to EH-QECO alone while increasing device expenditure and reducing reserve. The experiment demonstrates compatibility and a service--energy tradeoff, not simultaneous improvement of every metric. Its SDs and CIs are recomputed from five seed means, rather than 50 pooled episode records.
+
+\subsection{Quantitative Sensitivity}
+\label{sec:sensitivity}
+Equation~\eqref{eq:crossover} gives $C_x^*=10.0673$ at density 0.297. For each exponent, the analytical transmission-only load threshold is $M_x^*=(14/C_x^*)^{1/\alpha}$ while the floor is inactive. Table~\ref{tab:alpha} reports these thresholds. They locate a model requirement crossover, not an empirical whole-policy crossover. The empirical aggregate change is bracketed by the tested Normal and Medium capacities; an executed fine capacity sweep is not claimed.
+\input{tables/sensitivity.tex}
+Battery-capacity sensitivity uses a new deterministic charge-ledger replay of fifty Always-Local workload activity traces repeated under continuous demand, beginning at test row 480. Capacity is varied at fixed 50\% initial SOC and 0.95 efficiencies; both enabled and disabled harvest are replayed. Table~\ref{tab:battery} gives the first-device and mean-SOC threshold times at 0.01\% reserve. This isolates capacity in a fixed-demand scenario without running tasks after empty battery. Times are neither estimated by scaling 2.8\,h nor presented as measured hardware lifetime.
+
+The older short OFAT runs predominantly use one model and approximately 55\,s at the chosen trace offsets. Some nominal high-solar windows have zero instantaneous harvest in that brief segment. They do not establish robustness over all solar terciles or all test days. Accordingly, broad qualitative invariance claims across time mappings and battery parameters are omitted.
+
+\begin{figure}[t]\centering
+\includegraphics[width=\columnwidth]{boundary.pdf}
+\caption{Full-transmission versus full-local service-energy ratio. Dashed break-even marks depend on task density and configured powers. The shaded region marks tested capacities, not calibrated RF degradation. Labels and legend are separated from the curves.}
+\label{fig:boundary}\end{figure}
+
+\section{Discussion and Limitations}
+The principal result is conditional: changing effective communication service can erase a fixed policy's favorable energy--deadline tradeoff, while task-level forecasts can recover part of its service performance. Rules such as Greedy remain competitive, which tempers claims that a learned proposal is necessary for the observed correction. Forecast error, missed tasks, and per-task/full-run accounting boundaries must be examined together.
+
+The EH contribution is a verified short-horizon trace/battery integration and training-seed ablation with modest effects. The reserve increase contains direct replenishment and changed actions; the present design does not isolate their contributions. Only a brief daytime test segment is used. Independent training across five seeds quantifies algorithm initialization variability under that shared workload/window, not uncertainty across days, deployments, or weather conditions. Longer and independently sampled trace windows, validation-based model selection, and a separately retrained non-EH policy remain needed for broad policy comparisons.
+
+All execution is simulated. Stress weights and capacity compression are uncalibrated proxies; packet labels are not wireless measurements. The battery model neglects voltage sag, internal resistance, converter control, aging, and target-device brownout circuitry. The fixed-grid replay approximates irregular timestamps. Frozen QECO bookkeeping behavior is preserved, and EH uses a changed reward/recurrent configuration. Battery-empty service is not causally implemented in the inherited EH environment; the paper excludes post-depletion service claims. Selector/inference overhead has not been measured on hardware. The reported framework is therefore auditable and reproducible within stated assumptions, not deployment-validated.
+
+\section{Conclusion}
+Traffic-derived effective-capacity stress, paired workload replay, and explicit energy accounting reveal that device expenditure and deadline service must be reported jointly. A selector improves the frozen QECO comparison at Medium and High stress, while quantitative simple baselines prevent an unsupported claim of general superiority. Five workload seeds separately test the fixed-checkpoint comparison. Five EH training seeds support small, consistently directed short-window reserve and energy differences; their exact paired tests do not establish significance at 0.05. Combining EH-QECO with the selector exposes a useful service--energy tradeoff. Corrected task forecasts, analytical stress thresholds, and capacity-only battery-demand replay make the model's scope explicit. The resulting contribution is a reproducible simulation study of conditional offloading and EH-aware modelling, with hardware calibration and causal post-depletion service left open.
+
+\section*{Data and Code Availability}
+The public package \cite{StudyCode} contains the revised source/PDF, reviewer response, raw seed records, episode metrics, metadata audit, numerical tables, and a table-reproduction notebook. The original QECO code \cite{QECOCode}, traffic study \cite{Traffic}, and UCLM data \cite{UCLMData} are separately attributed. Raw external traffic captures are not redistributed. The package provides input hashes, download provenance, and commands for regeneration. The table-reproduction notebook reads published numerical records and rebuilds every displayed table; it does not silently retrain models. Simulation regeneration uses the documented Python/TensorFlow environment and supplied checkpoints. The frozen artifact remains identified by commit 909de4a; the revision is separately versioned.
+
+\bibliographystyle{IEEEtran}
+\bibliography{references}
+\end{document}

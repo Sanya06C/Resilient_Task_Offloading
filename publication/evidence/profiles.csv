@@ -1,0 +1,5 @@
+stress_level,n_windows,source_balanced_stress_score,source_balanced_offered_load_multiplier,source_balanced_median_new_flows,source_balanced_median_unique_sources,source_balanced_median_unique_destinations,source_balanced_median_median_flow_duration_sec,source_balanced_median_estimated_packet_rate_per_sec,source_balanced_median_short_flow_churn,source_balanced_median_persistent_flow_occupancy,monotone_offered_load_multiplier,capacity_factor,effective_ue_transmission_capacity
+Normal,13186,0.5857965867187179,1.0,3.5,2.0,3.5,0.85175,30108.38882698666,6.1521191794144645,2.0785,1.0,1.0,14.0
+Low,1600,0.43555611578152564,1.0,3.0,1.5,2.5,1.006,4329.183612740742,3.4439568159273115,2.122,1.0,1.0,14.0
+Medium,1598,0.676660842900597,2.720671853224533,6.0,2.5,4.5,0.0685,35962.15438140719,65.13254832370333,0.3365,2.720671853224533,0.6062641921123478,8.48769868957287
+High,1600,0.8572073883549293,4.896402392699427,10.5,3.0,5.5,0.06862499999999999,63066.81722011718,113.04545095873115,1.42225,4.896402392699427,0.4519198829631599,6.326878361484239

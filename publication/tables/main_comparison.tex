@@ -1,0 +1,23 @@
+\begin{table*}[t]
+\centering\footnotesize
+\caption{1,000 saved-workload episodes per policy and condition. UE energy is mean $\pm$ episode SD; intervals are conditional on the fixed checkpoints.}
+\label{tab:main}
+\begin{tabular}{@{}llrrrrrr@{}}\toprule
+Stress & Policy & UE energy (J) & UE 95\% CI & System (J) & TX (J) & Violations (\%) & Offload (\%)\\\midrule
+Normal & Original & 434.38 $\pm$ 16.30 & [433.36, 435.39] & 488.91 & 263.79 & 7.45 $\pm$ 1.63 & 63.97 \\
+Normal & Selector & 397.62 $\pm$ 16.07 & [396.62, 398.61] & 455.80 & 246.73 & 6.81 $\pm$ 1.90 & 63.55 \\
+Normal & Always-Local & 361.46 $\pm$ 6.64 & [361.05, 361.87] & 361.46 & 0.00 & 52.74 $\pm$ 2.86 & 0.00 \\
+Normal & Fixed-Edge-0 & 357.49 $\pm$ 9.43 & [356.91, 358.08] & 401.28 & 354.99 & 56.12 $\pm$ 2.52 & 100.00 \\
+Normal & Greedy-Rule & 397.20 $\pm$ 15.97 & [396.21, 398.20] & 455.59 & 243.85 & 6.99 $\pm$ 2.01 & 63.15 \\
+Medium & Original & 562.17 $\pm$ 17.48 & [561.08, 563.25] & 593.87 & 351.39 & 23.72 $\pm$ 2.44 & 56.47 \\
+Medium & Selector & 522.69 $\pm$ 18.97 & [521.51, 523.86] & 554.44 & 246.87 & 12.94 $\pm$ 2.19 & 38.10 \\
+Medium & Always-Local & 361.46 $\pm$ 6.64 & [361.05, 361.87] & 361.46 & 0.00 & 52.74 $\pm$ 2.86 & 0.00 \\
+Medium & Fixed-Edge-0 & 422.99 $\pm$ 7.25 & [422.54, 423.44] & 444.37 & 422.79 & 69.61 $\pm$ 2.47 & 100.00 \\
+Medium & Greedy-Rule & 510.80 $\pm$ 17.59 & [509.71, 511.89] & 545.35 & 228.46 & 12.19 $\pm$ 1.97 & 35.71 \\
+High & Original & 614.07 $\pm$ 16.90 & [613.02, 615.12] & 629.33 & 387.24 & 36.86 $\pm$ 2.30 & 53.65 \\
+High & Selector & 567.09 $\pm$ 19.53 & [565.88, 568.30] & 577.11 & 241.91 & 24.95 $\pm$ 2.37 & 27.05 \\
+High & Always-Local & 361.46 $\pm$ 6.64 & [361.05, 361.87] & 361.46 & 0.00 & 52.74 $\pm$ 2.86 & 0.00 \\
+High & Fixed-Edge-0 & 443.77 $\pm$ 6.37 & [443.38, 444.17] & 454.28 & 443.71 & 81.44 $\pm$ 1.90 & 100.00 \\
+High & Greedy-Rule & 507.29 $\pm$ 16.94 & [506.24, 508.34] & 524.33 & 163.85 & 24.08 $\pm$ 2.13 & 19.83 \\
+\bottomrule\end{tabular}
+\end{table*}

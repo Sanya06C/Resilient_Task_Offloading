@@ -1,0 +1,8 @@
+numpy==2.5.3
+tensorflow==2.21.0
+tf-keras==2.21.0
+matplotlib==3.11.1
+
+# Python 3.12; TensorFlow v1 compatibility is enabled in the simulation runners.
+# Reference verification additionally uses requests; the table notebook uses
+# only NumPy/Matplotlib and Python's standard library.

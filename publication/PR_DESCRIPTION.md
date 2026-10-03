@@ -1,0 +1,7 @@
+The inherited draft overstated EH significance and trace coverage, used an unpaired random observation feature in EH comparisons, and attached selector outcomes to proposed original-policy actions in its added counterfactual analysis.
+
+This revision supplies an 8-page evidence-based manuscript and a response to all nineteen requirements. It adds five-workload-seed frozen-policy validation, reruns the EH ablation and combined selector experiment with nuisance inputs fixed, replaces invalid counterfactual interpretations, verifies cited DOI metadata, and separates terminal battery measurements from averaged cumulative readings. Modest EH effects and model limitations are reported explicitly.
+
+Validation: complete 300-record main, 300-record EH, and 150-record combined experiments; deterministic matched-action replay on twenty episodes per policy/stress; ninety fresh comparator verification episodes; six battery-capacity demand replays; charge conservation and checkpoint/citation integrity checks; executed table-reproduction notebook; successful TeX compilation and visual review of all eight pages.
+
+The existing 1,000-episode baseline summaries remain the full comparative baseline source; the fresh subset verification is not labeled as a second complete baseline suite. Remaining research limitations include short EH trace coverage, fixed original QECO checkpoints, uncalibrated stress mapping/powers, and inherited battery-empty service behavior. No venue-specific page-limit compliance or hardware validation is claimed.
