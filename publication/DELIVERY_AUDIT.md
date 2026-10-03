@@ -28,6 +28,8 @@ The inherited EH environment's battery clipping and local fallback do not establ
 
 ## Verification
 
+An isolated export containing only committed files executed the notebook successfully and reproduced every manuscript table and the standalone source exactly. Untracked working files were not required for this check.
+
 `check_evidence.py` passes completeness, pairing metadata, charge conservation, seed-unit, model/checkpoint integrity, trace-allocation, matched deadline, citation-coverage, and standalone-source checks. The notebook's actual code cells were executed successfully. The final document was compiled using the existing Tectonic executable and rendered with Poppler for visual inspection. There are no overfull boxes, undefined citations/references, or question-mark reference placeholders. Harmless underfull spacing/font-package warnings are not represented as citation errors.
 
 The native Codex LaTeX editor was opened for the saved source; its compiler returned `Unable to find standard directories for platform`. The verified exported PDF was therefore produced with the existing research-folder compiler. No LaTeX plugin was installed.

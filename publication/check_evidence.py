@@ -28,7 +28,7 @@ for seed,m in load('training_audit.json').items():
  folder=ROOT/f'eh_extension_v2/checkpoints/seed_{seed}'
  meta=json.loads((folder/'metadata.json').read_text())
  for filename,sha in meta['checkpoint_hashes'].items():assert hashlib.sha256((folder/filename).read_bytes()).hexdigest()==sha
-for path,sha in main['checkpoint_hashes'].items():assert hashlib.sha256((ROOT/path).read_bytes()).hexdigest()==sha
+for path,sha in main['checkpoint_hashes'].items():assert hashlib.sha256((ROOT/path.replace('\\','/')).read_bytes()).hexdigest()==sha
 trace=load('trace_audit.json');assert sum(trace[x]['records'] for x in ['train','val','test'])==93438
 cf=load('counterfactual_verified.json')
 assert set(cf)=={'Normal','Medium','High'}
